@@ -32,14 +32,14 @@
                     colors: {
                         potencia: {
                             black: '#050505', // Slightly off-black for better contrast
-                            blue: 'rgba(37, 32, 101, 1)', // Adjusted from Canva
-                            gold: 'rgba(227, 182, 50, 1)',
+                            blue: 'rgba(37, 32, 101, 1)', // Updated to match logo RGB exactly
+                            gold: 'rgba(228, 179, 69, 1)', // Updated to match logo RGB exactly
                             darkBlue: '#1a164d',
                         }
                     },
                     backgroundImage: {
                         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, rgba(37,32,101,0.5) 0deg, rgba(0,0,0,0) 180deg, rgba(227,182,50,0.2) 360deg)',
+                        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, rgba(37,32,101,0.5) 0deg, rgba(0,0,0,0) 180deg, rgba(228,179,69,0.2) 360deg)',
                     },
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -75,7 +75,7 @@
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(227, 182, 50, 0.8); 
+            background: rgba(228, 179, 69, 0.8); 
         }
         
         .glass-nav {
@@ -91,13 +91,13 @@
         }
 
         .gradient-text {
-            background: linear-gradient(to right, #fff, rgba(227, 182, 50, 1));
+            background: linear-gradient(to right, #fff, rgba(228, 179, 69, 1));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .text-glow {
-            text-shadow: 0 0 20px rgba(227, 182, 50, 0.3);
+            text-shadow: 0 0 20px rgba(228, 179, 69, 0.3);
         }
     </style>
 </head>
@@ -111,15 +111,12 @@
 
         const Logo = () => (
             <div className="flex flex-col leading-none select-none cursor-pointer group" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                <div className="flex items-baseline gap-0.5">
-                    <span className="font-display font-black text-2xl tracking-tighter text-white group-hover:text-gray-200 transition-colors">
-                        POTÊNC
+                <div className="flex items-baseline">
+                    <span className="font-display font-black text-2xl tracking-normal text-white group-hover:text-gray-200 transition-colors">
+                        POTÊNC.
                     </span>
-                    <span className="font-display font-black text-2xl tracking-tighter text-potencia-gold">
+                    <span className="font-display font-black text-2xl tracking-normal text-potencia-gold">
                         IA
-                    </span>
-                    <span className="ml-1 text-[10px] font-bold tracking-widest text-potencia-blue bg-white px-1 rounded-sm uppercase transform -translate-y-1">
-                        Tech
                     </span>
                 </div>
             </div>
@@ -500,7 +497,7 @@
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-white mb-1">LinkedIn</h4>
-                                            <a href="#" className="text-gray-400 hover:text-white transition-colors">Siga nossa Company Page</a>
+                                            <a href="https://linkedin.com/company/potenciatechai/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">Siga nossa Company Page</a>
                                         </div>
                                     </div>
                                 </div>
@@ -565,7 +562,7 @@
                         <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
                             <Logo />
                             <div className="flex gap-6">
-                                <a href="#" className="hover:text-potencia-gold transition-colors">LinkedIn</a>
+                                <a href="https://linkedin.com/company/potenciatechai/" target="_blank" rel="noopener noreferrer" className="hover:text-potencia-gold transition-colors">LinkedIn</a>
                                 <a href="#" className="hover:text-potencia-gold transition-colors">Política de Privacidade</a>
                             </div>
                         </div>
