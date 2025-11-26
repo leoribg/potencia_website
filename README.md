@@ -48,7 +48,7 @@ Ative a opção **Enforce HTTPS** no GitHub assim que estiver disponível.
 - Tecnologia: HTML5 Single Page + React (via CDN) + TailwindCSS (via CDN)
 - Cores:
   - Preto: #000000
-  - Azul: rgba(35, 30, 98)
-  - Dourado: rgba(227, 182, 50)
+  - Azul: rgba(37, 32, 101)
+  - Dourado: rgba(228, 179, 69)
 - Envio de formulário: via **Formspree**
 - Email de destino: mauroperiquito@potenciatech.ai
