@@ -2,20 +2,14 @@
 
 Este guia explica como colocar seu site no ar gratuitamente usando **GitHub Pages**, configurar um domínio **GoDaddy** e ativar o **formulário de contato** para receber emails reais.
 
-## Passo 1: Preparar o Envio de Emails (Obrigatório para sites estáticos)
+## Passo 1: Preparar o Envio de Emails ✅ (Já Configurado)
 
-Como este é um site estático (HTML/JS) sem servidor backend próprio, precisamos de um serviço intermediário para processar o formulário e enviar o email para você. O **Formspree** é o padrão da indústria para isso.
+O formulário de contato já está integrado com o **Formspree** e enviará os emails para: **mauroperiquito@potenciatech.ai**
 
-1. Acesse https://formspree.io e crie uma conta gratuita.
-2. Clique em **New Form** (Novo Formulário).
-3. Dê um nome (ex: **Contato PotencIA**) e coloque o email de destino: mauroperiquito@potenciatech.ai
-4. O Formspree vai gerar uma URL única, por exemplo:
-   https://formspree.io/f/xvqbrqaz
-5. Abra o arquivo `index.html`.
-6. Procure a linha:
-   <form action="https://formspree.io/f/PLACEHOLDER_ID">
-7. Substitua pela sua URL real do Formspree.
-8. Salve o arquivo.
+- Endpoint configurado: `https://formspree.io/f/xanzrokl`
+- Status: Ativo e pronto para uso
+
+**Nota:** Na primeira vez que alguém enviar o formulário, você receberá um email do Formspree pedindo confirmação. Clique no link de confirmação para ativar completamente o formulário.
 
 ## Passo 2: Hospedar no GitHub Pages
 
