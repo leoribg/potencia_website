@@ -297,49 +297,6 @@
             );
         };
 
-        const ImpactStats = () => {
-            const stats = [
-                {
-                    value: "+120",
-                    label: "Operações Orquestradas",
-                    detail: "Roadmaps com governança ponta-a-ponta"
-                },
-                {
-                    value: "R$ 180Mi",
-                    label: "Valor Capturado",
-                    detail: "Eficiência, redução de riscos e novos produtos"
-                },
-                {
-                    value: "12 setores",
-                    label: "Presença",
-                    detail: "Da indústria pesada ao mercado financeiro"
-                }
-            ];
-
-            return (
-                <section className="relative z-20 -mt-16">
-                    <div className="container mx-auto px-6">
-                        <div className="glass-card grid gap-6 p-8 md:grid-cols-3 rounded-xl border border-white/5 shadow-2xl shadow-potencia-blue/20">
-                            {stats.map((stat, index) => {
-                                const isFirst = index === 0;
-                                const isLast = index === stats.length - 1;
-                                return (
-                                    <div
-                                        key={stat.label}
-                                        className={`text-center md:text-left ${!isLast ? 'md:border-r md:border-white/10 md:pr-6' : ''} ${!isFirst ? 'md:pl-6' : ''}`}
-                                    >
-                                        <p className="text-4xl font-display font-bold text-white mb-2">{stat.value}</p>
-                                        <p className="text-potencia-gold uppercase tracking-[0.3em] text-xs mb-2">{stat.label}</p>
-                                        <p className="text-gray-400 text-sm">{stat.detail}</p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
         const Services = () => {
             const services = [
                 {
@@ -721,7 +678,6 @@
                 <div className="font-sans antialiased text-white selection:bg-potencia-gold selection:text-black">
                     <Navigation />
                     <Hero />
-                    <ImpactStats />
                     <Services />
                     <Methodology />
                     <About />
