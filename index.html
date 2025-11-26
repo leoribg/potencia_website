@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PotêncIA | Transformação Digital com Governança</title>
+    <title>PotêncIA Tech | Transformação Digital</title>
     
     <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -18,8 +18,8 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter & Proxima Nova equivalent (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -27,17 +27,29 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
                     },
                     colors: {
                         potencia: {
-                            black: 'rgba(0, 0, 0, 1)',
-                            blue: 'rgba(35, 30, 98, 1)',
+                            black: '#050505', // Slightly off-black for better contrast
+                            blue: 'rgba(37, 32, 101, 1)', // Adjusted from Canva
                             gold: 'rgba(227, 182, 50, 1)',
                             darkBlue: '#1a164d',
                         }
                     },
                     backgroundImage: {
                         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, rgba(37,32,101,0.5) 0deg, rgba(0,0,0,0) 180deg, rgba(227,182,50,0.2) 360deg)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
                     }
                 }
             }
@@ -48,7 +60,9 @@
         body {
             background-color: #000;
             color: #fff;
+            overflow-x: hidden;
         }
+        
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -65,9 +79,15 @@
         }
         
         .glass-nav {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .gradient-text {
@@ -76,8 +96,8 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .glow-effect {
-            box-shadow: 0 0 40px rgba(35, 30, 98, 0.4);
+        .text-glow {
+            text-shadow: 0 0 20px rgba(227, 182, 50, 0.3);
         }
     </style>
 </head>
@@ -87,14 +107,31 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Components
+        // --- COMPONENTS ---
+
+        const Logo = () => (
+            <div className="flex flex-col leading-none select-none cursor-pointer group" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                <div className="flex items-baseline gap-0.5">
+                    <span className="font-display font-black text-2xl tracking-tighter text-white group-hover:text-gray-200 transition-colors">
+                        POTÊNC
+                    </span>
+                    <span className="font-display font-black text-2xl tracking-tighter text-potencia-gold">
+                        IA
+                    </span>
+                    <span className="ml-1 text-[10px] font-bold tracking-widest text-potencia-blue bg-white px-1 rounded-sm uppercase transform -translate-y-1">
+                        Tech
+                    </span>
+                </div>
+            </div>
+        );
+
         const Navigation = () => {
             const [isScrolled, setIsScrolled] = useState(false);
             const [isMenuOpen, setIsMenuOpen] = useState(false);
 
             useEffect(() => {
                 const handleScroll = () => {
-                    setIsScrolled(window.scrollY > 50);
+                    setIsScrolled(window.scrollY > 20);
                 };
                 window.addEventListener('scroll', handleScroll);
                 return () => window.removeEventListener('scroll', handleScroll);
@@ -103,7 +140,6 @@
             const scrollToSection = (id) => {
                 const element = document.getElementById(id);
                 if (element) {
-                    // Offset for fixed header
                     const headerOffset = 80;
                     const elementPosition = element.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -120,33 +156,27 @@
                 { name: 'Serviços', id: 'servicos' },
                 { name: 'Insights', id: 'insights' },
                 { name: 'Sobre', id: 'sobre' },
-                { name: 'Contato', id: 'contato' },
             ];
 
             return (
-                <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'glass-nav py-4' : 'bg-transparent py-6'}`}>
+                <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'glass-nav py-4 shadow-2xl shadow-potencia-blue/10' : 'bg-transparent py-8'}`}>
                     <div className="container mx-auto px-6 flex justify-between items-center">
-                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                            <div className="w-8 h-8 bg-potencia-gold rounded-sm transform rotate-45 flex items-center justify-center">
-                                <div className="w-4 h-4 bg-potencia-black transform -rotate-45"></div>
-                            </div>
-                            <span className="text-2xl font-bold tracking-wider text-white">Potênc<span className="text-potencia-gold">IA</span></span>
-                        </div>
+                        <Logo />
 
                         {/* Desktop Menu */}
-                        <div className="hidden md:flex gap-8 items-center">
+                        <div className="hidden md:flex gap-10 items-center">
                             {navLinks.map((link) => (
                                 <button 
                                     key={link.name}
                                     onClick={() => scrollToSection(link.id)}
-                                    className="text-gray-300 hover:text-potencia-gold text-sm font-medium tracking-wide uppercase transition-colors"
+                                    className="text-gray-300 hover:text-white text-sm font-semibold tracking-wide uppercase transition-all hover:tracking-wider"
                                 >
                                     {link.name}
                                 </button>
                             ))}
                             <button 
                                 onClick={() => scrollToSection('contato')}
-                                className="px-5 py-2 border border-potencia-gold text-potencia-gold hover:bg-potencia-gold hover:text-black transition-all duration-300 rounded font-medium"
+                                className="px-6 py-2.5 bg-transparent border border-potencia-gold/50 text-potencia-gold hover:bg-potencia-gold hover:text-black transition-all duration-300 rounded-sm font-bold tracking-wide uppercase text-xs"
                             >
                                 Fale Conosco
                             </button>
@@ -154,26 +184,32 @@
 
                         {/* Mobile Menu Button */}
                         <div className="md:hidden">
-                            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
-                                <i data-lucide={isMenuOpen ? "x" : "menu"}></i>
+                            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white hover:text-potencia-gold transition-colors">
+                                <i data-lucide={isMenuOpen ? "x" : "menu"} width="28" height="28"></i>
                             </button>
                         </div>
                     </div>
 
                     {/* Mobile Menu */}
-                    {isMenuOpen && (
-                        <div className="md:hidden absolute top-full left-0 w-full bg-potencia-black border-b border-gray-800 p-6 flex flex-col gap-4">
+                    <div className={`md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-gray-800 transition-all duration-300 overflow-hidden ${isMenuOpen ? 'max-h-screen py-6 opacity-100' : 'max-h-0 py-0 opacity-0'}`}>
+                        <div className="flex flex-col px-6 gap-6">
                             {navLinks.map((link) => (
                                 <button 
                                     key={link.name}
                                     onClick={() => scrollToSection(link.id)}
-                                    className="text-left text-gray-300 hover:text-potencia-gold py-2"
+                                    className="text-left text-xl font-medium text-gray-300 hover:text-potencia-gold"
                                 >
                                     {link.name}
                                 </button>
                             ))}
+                            <button 
+                                onClick={() => scrollToSection('contato')}
+                                className="text-left text-xl font-bold text-potencia-gold"
+                            >
+                                Fale Conosco
+                            </button>
                         </div>
-                    )}
+                    </div>
                 </nav>
             );
         };
@@ -181,30 +217,51 @@
         const Hero = () => {
             return (
                 <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-                    {/* Background Gradients/Blobs */}
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-potencia-blue opacity-20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4"></div>
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-potencia-gold opacity-10 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/4"></div>
+                    {/* Atmospheric Effects */}
+                    <div className="absolute inset-0 bg-hero-glow opacity-30 animate-pulse-slow"></div>
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-potencia-blue opacity-20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
+                    <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-potencia-gold opacity-10 rounded-full blur-[150px] translate-y-1/4 -translate-x-1/4"></div>
+                    
+                    {/* Grid Pattern Overlay */}
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
                     
                     <div className="container mx-auto px-6 relative z-10">
-                        <div className="max-w-4xl">
-                            <h2 className="text-potencia-gold font-bold tracking-widest uppercase mb-4 animate-fade-in-up">Consultoria em Transformação Digital</h2>
-                            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-8">
+                        <div className="max-w-5xl">
+                            <div className="inline-block px-3 py-1 mb-6 border border-potencia-gold/30 rounded-full bg-potencia-gold/5 backdrop-blur-sm animate-fade-in-up">
+                                <span className="text-potencia-gold text-xs font-bold tracking-widest uppercase">Consultoria em Transformação Digital</span>
+                            </div>
+                            
+                            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-8 tracking-tight">
                                 <span className="block text-white">Processos Primeiro,</span>
-                                <span className="block gradient-text">Tecnologia Depois,</span>
+                                <span className="block gradient-text text-glow">Tecnologia Depois,</span>
                                 <span className="block text-white">Resultados Sempre.</span>
                             </h1>
-                            <p className="text-xl text-gray-400 mb-10 max-w-2xl border-l-2 border-potencia-blue pl-6">
-                                Ajudamos empresas brasileiras a fazer a tecnologia trabalhar para elas, não contra elas. Crescendo com inteligência e governança.
+                            
+                            <div className="flex items-center gap-4 mb-10">
+                                <div className="h-px w-12 bg-potencia-gold"></div>
+                                <p className="text-xl md:text-2xl text-gray-300 font-light italic">
+                                    "Crescendo com Inteligência"
+                                </p>
+                            </div>
+
+                            <p className="text-lg text-gray-400 mb-12 max-w-2xl leading-relaxed">
+                                Ajudamos empresas brasileiras a fazer a tecnologia trabalhar para elas, não contra elas. Com governança, visão sistêmica e inovação responsável.
                             </p>
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <button onClick={() => document.getElementById('servicos').scrollIntoView({behavior: 'smooth'})} className="px-8 py-4 bg-potencia-gold text-black font-bold text-lg rounded hover:bg-white transition-colors duration-300">
+                            
+                            <div className="flex flex-col sm:flex-row gap-5">
+                                <button onClick={() => document.getElementById('servicos').scrollIntoView({behavior: 'smooth'})} className="px-10 py-5 bg-potencia-gold text-black font-bold text-lg rounded-sm hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg shadow-potencia-gold/20">
                                     Nossos Serviços
                                 </button>
-                                <button onClick={() => document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})} className="px-8 py-4 border border-gray-600 text-white font-bold text-lg rounded hover:border-potencia-gold hover:text-potencia-gold transition-colors duration-300">
+                                <button onClick={() => document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})} className="px-10 py-5 glass-card text-white font-bold text-lg rounded-sm hover:border-potencia-gold hover:text-potencia-gold transition-all duration-300">
                                     Conheça a PotêncIA
                                 </button>
                             </div>
                         </div>
+                    </div>
+                    
+                    {/* Scroll Indicator */}
+                    <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                        <i data-lucide="chevron-down" className="text-gray-500"></i>
                     </div>
                 </section>
             );
@@ -214,43 +271,58 @@
             const services = [
                 {
                     title: "Governança de TI",
-                    desc: "Estruturação de processos para garantir que seus investimentos em tecnologia gerem valor mensurável e segurança.",
+                    desc: "Estruturação de processos para garantir que seus investimentos em tecnologia gerem valor mensurável, conformidade e segurança corporativa.",
                     icon: "shield-check"
                 },
                 {
                     title: "Transformação Digital",
-                    desc: "Digitalização de processos com visão sistêmica. Integramos sistemas que não conversam e otimizamos fluxos.",
+                    desc: "Digitalização de processos com visão sistêmica. Integramos legados que não conversam e otimizamos fluxos de trabalho.",
                     icon: "cpu"
                 },
                 {
                     title: "IA Responsável",
-                    desc: "Implementação de Inteligência Artificial com ética, segurança e foco em aumentar a produtividade humana.",
+                    desc: "Implementação de Inteligência Artificial com ética, segurança de dados e foco estratégico em aumentar a produtividade humana.",
                     icon: "brain-circuit"
                 },
                 {
                     title: "Inovação Estratégica",
-                    desc: "Planejamento de longo prazo para manter sua empresa competitiva em um mercado em constante mudança.",
+                    desc: "Planejamento de longo prazo e roadmaps tecnológicos para manter sua empresa competitiva em um mercado volátil.",
                     icon: "rocket"
                 }
             ];
 
             return (
-                <section id="servicos" className="py-24 bg-zinc-950 relative">
+                <section id="servicos" className="py-32 bg-potencia-black relative">
                     <div className="container mx-auto px-6">
-                        <div className="mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 border-l-4 border-potencia-gold pl-4">Nossos Serviços</h2>
-                            <p className="text-gray-400 text-lg">Soluções integradas para o crescimento do seu negócio.</p>
+                        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+                            <div>
+                                <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 text-white">Nossos Serviços</h2>
+                                <div className="h-1 w-24 bg-potencia-gold rounded-full"></div>
+                            </div>
+                            <p className="text-gray-400 text-lg max-w-md text-right md:text-left">
+                                Soluções integradas desenhadas para o cenário brasileiro de tecnologia.
+                            </p>
                         </div>
                         
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {services.map((service, index) => (
-                                <div key={index} className="group p-8 bg-potencia-black border border-gray-800 hover:border-potencia-blue transition-all duration-300 hover:transform hover:-translate-y-2 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-24 h-24 bg-potencia-blue opacity-0 group-hover:opacity-10 rounded-bl-full transition-opacity duration-300"></div>
-                                    <div className="mb-6 text-potencia-gold">
-                                        <i data-lucide={service.icon} width="40" height="40"></i>
+                                <div key={index} className="group glass-card p-8 hover:bg-white/5 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden rounded-sm">
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-potencia-blue to-potencia-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                                    
+                                    <div className="mb-8 p-4 bg-white/5 rounded-full w-fit group-hover:bg-potencia-gold/20 transition-colors duration-300">
+                                        <div className="text-potencia-gold">
+                                            <i data-lucide={service.icon} width="32" height="32"></i>
+                                        </div>
                                     </div>
-                                    <h3 className="text-xl font-bold mb-3 group-hover:text-potencia-gold transition-colors">{service.title}</h3>
+                                    
+                                    <h3 className="font-display text-xl font-bold mb-4 text-white group-hover:text-potencia-gold transition-colors">{service.title}</h3>
                                     <p className="text-gray-400 text-sm leading-relaxed">{service.desc}</p>
+                                    
+                                    <div className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                                        <span className="text-potencia-gold text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                                            Saiba mais <i data-lucide="arrow-right" width="12"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -261,37 +333,55 @@
 
         const About = () => {
             return (
-                <section id="sobre" className="py-24 relative overflow-hidden">
-                     <div className="absolute left-0 top-1/2 w-[300px] h-[600px] bg-potencia-blue opacity-10 blur-[80px] -translate-y-1/2"></div>
+                <section id="sobre" className="py-32 relative overflow-hidden bg-black">
+                     <div className="absolute right-0 top-1/2 w-[800px] h-[800px] bg-potencia-blue opacity-[0.08] blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
                     
-                    <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-                        <div className="md:w-1/2">
-                            <div className="relative">
-                                {/* Image Placeholder using CSS shapes/colors since no image provided */}
-                                <div className="w-full h-[500px] bg-gradient-to-br from-gray-900 to-black border border-gray-800 relative z-10 p-8 flex flex-col justify-end">
-                                    <div className="text-6xl font-bold text-potencia-gold opacity-20 mb-4">23</div>
-                                    <div className="text-2xl font-bold text-white">Anos de Experiência</div>
-                                    <div className="w-16 h-1 bg-potencia-blue mt-4"></div>
+                    <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-20">
+                        <div className="lg:w-1/2 order-2 lg:order-1">
+                            <h2 className="font-display text-4xl md:text-5xl font-bold mb-8">Nossa Bandeira</h2>
+                            <div className="space-y-6 text-gray-300 text-lg leading-relaxed font-light">
+                                <p>
+                                    A <strong className="text-white font-bold">PotêncIA Tech</strong> nasceu de uma inconformidade. Depois de 23 anos vendo o mercado investir milhões em sistemas desconectados e "digitalização" sem propósito, decidimos mudar o jogo.
+                                </p>
+                                <p>
+                                    Acreditamos que a tecnologia deve servir ao negócio, e não o contrário. Nossa abordagem é pragmática: primeiro entendemos seus processos e dores, depois aplicamos a tecnologia certa.
+                                </p>
+                                
+                                <div className="py-8 my-8 border-y border-gray-800 relative">
+                                    <div className="absolute -left-4 top-0 bottom-0 w-1 bg-potencia-gold"></div>
+                                    <blockquote className="text-2xl font-display font-bold text-white italic">
+                                        "Transformação digital com governança. Processos primeiro, tecnologia depois, resultados sempre."
+                                    </blockquote>
                                 </div>
-                                <div className="absolute -top-4 -left-4 w-full h-full border-2 border-potencia-gold opacity-30 z-0"></div>
+                                
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-potencia-blue/20 p-2 rounded">
+                                        <span className="text-2xl">🇧🇷</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-white font-bold">DNA Brasileiro</p>
+                                        <p className="text-sm text-gray-500">Soluções tropicais para problemas reais.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div className="md:w-1/2">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-8">Nossa Bandeira</h2>
-                            <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
-                                <p>
-                                    A <strong className="text-white">PotêncIA</strong> nasceu com um propósito claro: ajudar empresas brasileiras a fazer a tecnologia trabalhar para elas, não contra elas.
-                                </p>
-                                <p>
-                                    Depois de 23 anos vendo organizações investirem milhões em sistemas que não conversam, processos digitalizados mas não integrados, e projetos pontuais sem visão sistêmica, decidimos levantar essa bandeira.
-                                </p>
-                                <blockquote className="border-l-4 border-potencia-gold pl-6 py-2 my-8 text-xl font-medium text-white italic bg-gray-900/30">
-                                    "Transformação digital com governança. Processos primeiro, tecnologia depois, resultados sempre."
-                                </blockquote>
-                                <div className="flex items-center gap-2 text-potencia-gold font-bold">
-                                    <span>Crescendo com Inteligência</span>
-                                    <span>🇧🇷</span>
+                        <div className="lg:w-1/2 order-1 lg:order-2">
+                            <div className="relative group">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-potencia-blue to-potencia-gold blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-700"></div>
+                                <div className="relative glass-card aspect-square flex flex-col justify-center items-center p-12 text-center border-potencia-gold/20">
+                                    <span className="font-display text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 opacity-50">23</span>
+                                    <span className="font-display text-3xl font-bold text-white mt-4">Anos de Experiência</span>
+                                    <div className="w-20 h-1 bg-potencia-gold mt-6 mb-2"></div>
+                                    <p className="text-gray-400">Atuando na interseção entre<br/>Negócios e Tecnologia.</p>
+                                    
+                                    {/* Decorative Elements */}
+                                    <div className="absolute top-6 right-6 text-potencia-gold opacity-50">
+                                        <i data-lucide="star" width="24"></i>
+                                    </div>
+                                    <div className="absolute bottom-6 left-6 text-potencia-blue opacity-80">
+                                        <i data-lucide="zap" width="24"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -302,41 +392,60 @@
 
         const Insights = () => {
              const articles = [
-                { title: "Como a IA Responsável impacta o ROI", cat: "IA Responsável" },
-                { title: "Sistemas Legados vs. Inovação: O equilíbrio", cat: "Governança" },
-                { title: "Por que processos vêm antes do software?", cat: "Transformação Digital" }
+                { 
+                    title: "Como a IA Responsável impacta o ROI", 
+                    cat: "Inteligência Artificial",
+                    desc: "Adoção segura de IA não é apenas sobre ética, é sobre garantir retorno sustentável sobre o investimento.",
+                    date: "Nov 2024"
+                },
+                { 
+                    title: "O dilema dos Sistemas Legados", 
+                    cat: "Governança",
+                    desc: "Substituir ou integrar? Um guia prático para CTOs e gestores tomarem a decisão correta.",
+                    date: "Out 2024"
+                },
+                { 
+                    title: "Processos antes do Software", 
+                    cat: "Metodologia",
+                    desc: "Por que 70% dos projetos de transformação digital falham antes mesmo da primeira linha de código.",
+                    date: "Set 2024"
+                }
             ];
 
             return (
-                <section id="insights" className="py-24 bg-zinc-950">
+                <section id="insights" className="py-32 bg-zinc-950">
                     <div className="container mx-auto px-6">
-                        <div className="flex justify-between items-end mb-12">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-16">
                             <div>
-                                <h2 className="text-3xl md:text-4xl font-bold mb-2">Insights</h2>
-                                <p className="text-gray-400">Acompanhe nossas análises estratégicas.</p>
+                                <span className="text-potencia-gold font-bold uppercase tracking-widest text-sm mb-2 block">Blog & News</span>
+                                <h2 className="font-display text-4xl font-bold text-white">Últimos Insights</h2>
                             </div>
-                            <a href="#" className="hidden md:flex items-center gap-2 text-potencia-gold hover:text-white transition-colors">
-                                Ver company page <i data-lucide="arrow-right" width="16"></i>
-                            </a>
+                            <button className="hidden md:flex items-center gap-2 text-white hover:text-potencia-gold transition-colors group">
+                                Ver todos os artigos <i data-lucide="arrow-right" className="group-hover:translate-x-1 transition-transform"></i>
+                            </button>
                         </div>
 
                         <div className="grid md:grid-cols-3 gap-8">
                             {articles.map((art, idx) => (
-                                <article key={idx} className="bg-black border border-gray-800 p-8 hover:border-potencia-gold transition-colors cursor-pointer group">
-                                    <span className="text-xs font-bold text-potencia-blue uppercase tracking-wider mb-2 block">{art.cat}</span>
-                                    <h3 className="text-xl font-bold text-white mb-4 group-hover:text-potencia-gold transition-colors">{art.title}</h3>
-                                    <p className="text-gray-500 text-sm mb-6">Leitura de 5 min</p>
-                                    <div className="w-full h-px bg-gray-800 group-hover:bg-potencia-gold/50 transition-colors"></div>
-                                    <div className="mt-4 flex justify-end">
-                                        <i data-lucide="arrow-up-right" className="text-gray-500 group-hover:text-potencia-gold"></i>
+                                <article key={idx} className="bg-black border border-gray-900 hover:border-potencia-gold/50 transition-all duration-300 group flex flex-col h-full rounded-sm overflow-hidden hover:shadow-xl hover:shadow-potencia-gold/5">
+                                    <div className="h-2 w-full bg-gray-900 group-hover:bg-potencia-gold transition-colors"></div>
+                                    <div className="p-8 flex flex-col flex-grow">
+                                        <div className="flex justify-between items-center mb-6">
+                                            <span className="text-xs font-bold text-potencia-blue bg-potencia-blue/10 px-2 py-1 rounded uppercase tracking-wider">{art.cat}</span>
+                                            <span className="text-xs text-gray-600">{art.date}</span>
+                                        </div>
+                                        <h3 className="font-display text-xl font-bold text-white mb-4 group-hover:text-potencia-gold transition-colors leading-tight">{art.title}</h3>
+                                        <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{art.desc}</p>
+                                        <div className="flex items-center text-sm font-semibold text-gray-400 group-hover:text-white transition-colors cursor-pointer">
+                                            Ler artigo <i data-lucide="chevron-right" width="16" className="ml-1"></i>
+                                        </div>
                                     </div>
                                 </article>
                             ))}
                         </div>
-                        <div className="mt-8 text-center md:hidden">
-                             <a href="#" className="inline-flex items-center gap-2 text-potencia-gold">
-                                Ver company page <i data-lucide="arrow-right" width="16"></i>
-                            </a>
+                        
+                        <div className="mt-12 text-center md:hidden">
+                            <button className="text-potencia-gold font-bold uppercase text-sm">Ver todos os insights</button>
                         </div>
                     </div>
                 </section>
@@ -351,16 +460,10 @@
                 const form = e.target;
                 const data = new FormData(form);
                 
-                // IMPORTANT: In a real environment, you need a backend service like Formspree
-                // to handle the email sending from a static HTML page.
-                // The action URL below should be replaced with your Formspree endpoint.
-                
                 fetch(form.action, {
                     method: form.method,
                     body: data,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    headers: { 'Accept': 'application/json' }
                 }).then(response => {
                     if (response.ok) {
                         setStatus("SUCCESS");
@@ -368,63 +471,86 @@
                     } else {
                         setStatus("ERROR");
                     }
-                }).catch(error => {
-                    setStatus("ERROR");
-                });
+                }).catch(error => setStatus("ERROR"));
             };
 
             return (
-                <section id="contato" className="py-24 relative bg-gradient-to-b from-black to-potencia-blue/20">
+                <section id="contato" className="py-32 relative bg-gradient-to-b from-black to-potencia-blue/30">
                     <div className="container mx-auto px-6">
-                        <div className="max-w-2xl mx-auto text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Vamos Conversar?</h2>
-                            <p className="text-gray-400">Preencha o formulário abaixo para iniciar sua transformação digital.</p>
-                        </div>
-
-                        <div className="max-w-xl mx-auto bg-black p-8 border border-gray-800 rounded-lg glow-effect">
-                            {/* NOTA DE IMPLEMENTAÇÃO:
-                                Para sites estáticos (HTML/GitHub Pages), você DEVE usar um serviço como Formspree.io.
-                                1. Crie uma conta no Formspree.
-                                2. Crie um novo formulário.
-                                3. Substitua "https://formspree.io/f/YOUR_ID" pela URL que eles te derem.
-                                4. Configure o Formspree para encaminhar para "mauroperiquito@potenciatech.ai".
-                            */}
-                            <form 
-                                action="https://formspree.io/f/PLACEHOLDER_ID" 
-                                method="POST"
-                                onSubmit={handleSubmit}
-                                className="space-y-6"
-                            >
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Nome</label>
-                                    <input required type="text" name="name" className="w-full bg-zinc-900 border border-gray-700 rounded p-3 text-white focus:border-potencia-gold focus:outline-none focus:ring-1 focus:ring-potencia-gold transition-all" />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Email</label>
-                                    <input required type="email" name="email" className="w-full bg-zinc-900 border border-gray-700 rounded p-3 text-white focus:border-potencia-gold focus:outline-none focus:ring-1 focus:ring-potencia-gold transition-all" />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Mensagem</label>
-                                    <textarea required name="message" rows="4" className="w-full bg-zinc-900 border border-gray-700 rounded p-3 text-white focus:border-potencia-gold focus:outline-none focus:ring-1 focus:ring-potencia-gold transition-all"></textarea>
-                                </div>
+                        <div className="grid lg:grid-cols-2 gap-20">
+                            <div>
+                                <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">Vamos Conversar?</h2>
+                                <p className="text-xl text-gray-300 mb-10 font-light">
+                                    Descubra como podemos acelerar sua transformação digital com segurança e resultados.
+                                </p>
                                 
-                                <button type="submit" className="w-full py-4 bg-potencia-gold hover:bg-white text-black font-bold uppercase tracking-widest transition-colors duration-300">
-                                    Enviar Mensagem
-                                </button>
+                                <div className="space-y-8">
+                                    <div className="flex items-start gap-4">
+                                        <div className="bg-potencia-gold/10 p-3 rounded text-potencia-gold">
+                                            <i data-lucide="mail" width="24"></i>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-white mb-1">Email</h4>
+                                            <a href="mailto:mauroperiquito@potenciatech.ai" className="text-gray-400 hover:text-white transition-colors">mauroperiquito@potenciatech.ai</a>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="bg-potencia-gold/10 p-3 rounded text-potencia-gold">
+                                            <i data-lucide="linkedin" width="24"></i>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-white mb-1">LinkedIn</h4>
+                                            <a href="#" className="text-gray-400 hover:text-white transition-colors">Siga nossa Company Page</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                {status === "SUCCESS" && (
-                                    <p className="text-green-500 text-center mt-4">Mensagem enviada com sucesso! Entraremos em contato em breve.</p>
-                                )}
-                                {status === "ERROR" && (
-                                    <p className="text-red-500 text-center mt-4">Erro ao enviar. Por favor, verifique a configuração do Formspree.</p>
-                                )}
-                            </form>
-                            
-                            <div className="mt-8 pt-8 border-t border-gray-800 text-center">
-                                <p className="text-gray-500 text-sm">Ou envie diretamente para:</p>
-                                <a href="mailto:mauroperiquito@potenciatech.ai" className="text-potencia-gold hover:text-white transition-colors font-medium mt-1 inline-block">
-                                    mauroperiquito@potenciatech.ai
-                                </a>
+                            <div className="bg-black/50 backdrop-blur-sm p-8 md:p-10 border border-gray-800 rounded-lg shadow-2xl relative">
+                                <div className="absolute top-0 right-0 w-20 h-20 bg-potencia-gold opacity-10 rounded-bl-full"></div>
+                                
+                                <form 
+                                    action="https://formspree.io/f/PLACEHOLDER_ID" 
+                                    method="POST"
+                                    onSubmit={handleSubmit}
+                                    className="space-y-6 relative z-10"
+                                >
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Nome</label>
+                                            <input required type="text" name="name" className="w-full bg-zinc-900/50 border border-gray-700 rounded-sm p-3 text-white focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all" placeholder="Seu nome" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Empresa</label>
+                                            <input type="text" name="company" className="w-full bg-zinc-900/50 border border-gray-700 rounded-sm p-3 text-white focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all" placeholder="Nome da empresa" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Email Corporativo</label>
+                                        <input required type="email" name="email" className="w-full bg-zinc-900/50 border border-gray-700 rounded-sm p-3 text-white focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all" placeholder="seu@empresa.com" />
+                                    </div>
+                                    
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Como podemos ajudar?</label>
+                                        <textarea required name="message" rows="4" className="w-full bg-zinc-900/50 border border-gray-700 rounded-sm p-3 text-white focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all resize-none" placeholder="Descreva brevemente seu desafio..."></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" className="w-full py-4 bg-potencia-gold hover:bg-white text-black font-bold uppercase tracking-widest transition-all duration-300 shadow-lg shadow-potencia-gold/10">
+                                        Enviar Mensagem
+                                    </button>
+
+                                    {status === "SUCCESS" && (
+                                        <div className="p-4 bg-green-900/20 border border-green-800 text-green-400 text-sm text-center rounded">
+                                            Mensagem recebida! Entraremos em contato em breve.
+                                        </div>
+                                    )}
+                                    {status === "ERROR" && (
+                                        <div className="p-4 bg-red-900/20 border border-red-800 text-red-400 text-sm text-center rounded">
+                                            Erro ao enviar. Verifique sua conexão ou tente novamente mais tarde.
+                                        </div>
+                                    )}
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -435,13 +561,17 @@
         const Footer = () => {
             return (
                 <footer className="py-12 border-t border-gray-900 bg-black text-sm text-gray-500">
-                    <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div className="flex items-center gap-2">
-                            <span className="font-bold text-white text-lg">Potênc<span className="text-potencia-gold">IA</span></span>
+                    <div className="container mx-auto px-6">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                            <Logo />
+                            <div className="flex gap-6">
+                                <a href="#" className="hover:text-potencia-gold transition-colors">LinkedIn</a>
+                                <a href="#" className="hover:text-potencia-gold transition-colors">Política de Privacidade</a>
+                            </div>
                         </div>
-                        <div className="text-center md:text-right">
-                            <p>&copy; {new Date().getFullYear()} PotêncIA Tecnologia. Todos os direitos reservados.</p>
-                            <p className="mt-1">Processos, Pessoas e Tecnologia.</p>
+                        <div className="flex flex-col md:flex-row justify-between items-center border-t border-gray-900 pt-8 gap-4">
+                            <p className="font-medium text-gray-600">"Crescendo com Inteligência"</p>
+                            <p>&copy; {new Date().getFullYear()} PotêncIA Tech Consultoria. Todos os direitos reservados.</p>
                         </div>
                     </div>
                 </footer>
