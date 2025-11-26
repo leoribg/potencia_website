@@ -482,24 +482,27 @@
         };
 
         const Insights = () => {
-             const articles = [
+            const articles = [
                 { 
-                    title: "Como a IA Responsável impacta o ROI", 
+                    title: "O Frankenstein tecnológico das empresas médias", 
+                    cat: "Governança & Operações",
+                    desc: "Por que stacks desconexas drenam margem e como redesenhar o core digital sem parar o negócio.",
+                    date: "LinkedIn",
+                    url: "https://www.linkedin.com/pulse/o-frankenstein-tecnol%C3%B3gico-das-empresas-m%C3%A9dias-mauro-periquito-ainyf"
+                },
+                { 
+                    title: "Transformação Digital na era dos Agentes de IA", 
+                    cat: "Vídeo / Entrevista",
+                    desc: "Mauro Periquito discute como agentes autônomos reposicionam pessoas, processos e métricas de valor.",
+                    date: "YouTube",
+                    url: "https://www.youtube.com/watch?v=5E52FJDeBXw"
+                },
+                { 
+                    title: "7 Riscos de IA que Todo CEO Deveria Conhecer Agora", 
                     cat: "Inteligência Artificial",
-                    desc: "Adoção segura de IA não é apenas sobre ética, é sobre garantir retorno sustentável sobre o investimento.",
-                    date: "Nov 2024"
-                },
-                { 
-                    title: "O dilema dos Sistemas Legados", 
-                    cat: "Governança",
-                    desc: "Substituir ou integrar? Um guia prático para CTOs e gestores tomarem a decisão correta.",
-                    date: "Out 2024"
-                },
-                { 
-                    title: "Processos antes do Software", 
-                    cat: "Metodologia",
-                    desc: "Por que 70% dos projetos de transformação digital falham antes mesmo da primeira linha de código.",
-                    date: "Set 2024"
+                    desc: "Governos, boards e operações já cobram accountability sobre IA — saiba quais riscos mitigar imediatamente.",
+                    date: "LinkedIn",
+                    url: "https://www.linkedin.com/pulse/7-riscos-de-ia-que-todo-ceo-deveria-conhecer-agora-mauro-periquito-3t3pf/"
                 }
             ];
 
@@ -518,9 +521,14 @@
 
                         <div className="grid md:grid-cols-3 gap-8">
                             {articles.map((art, idx) => (
-                                <article key={idx} className="bg-black border border-gray-900 hover:border-potencia-gold/50 transition-all duration-300 group flex flex-col h-full rounded-sm overflow-hidden hover:shadow-xl hover:shadow-potencia-gold/5">
+                                <article key={idx} className="bg-black border border-gray-900 hover:border-potencia-gold/50 transition-all duration-300 flex flex-col h-full rounded-sm overflow-hidden hover:shadow-xl hover:shadow-potencia-gold/5">
                                     <div className="h-2 w-full bg-gray-900 group-hover:bg-potencia-gold transition-colors"></div>
-                                    <div className="p-8 flex flex-col flex-grow">
+                                    <a 
+                                        href={art.url} 
+                                       target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="p-8 flex flex-col flex-grow group"
+                                    >
                                         <div className="flex justify-between items-center mb-6">
                                             <span className="text-xs font-bold text-potencia-blue bg-potencia-blue/10 px-2 py-1 rounded uppercase tracking-wider">{art.cat}</span>
                                             <span className="text-xs text-gray-600">{art.date}</span>
@@ -528,9 +536,9 @@
                                         <h3 className="font-display text-xl font-bold text-white mb-4 group-hover:text-potencia-gold transition-colors leading-tight">{art.title}</h3>
                                         <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{art.desc}</p>
                                         <div className="flex items-center text-sm font-semibold text-gray-400 group-hover:text-white transition-colors cursor-pointer">
-                                            Ler artigo <i data-lucide="chevron-right" width="16" className="ml-1"></i>
+                                            Acessar conteúdo <i data-lucide="chevron-right" width="16" className="ml-1"></i>
                                         </div>
-                                    </div>
+                                    </a>
                                 </article>
                             ))}
                         </div>
