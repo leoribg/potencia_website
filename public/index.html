@@ -272,6 +272,53 @@
 
         // --- COMPONENTS ---
 
+        // Shared animated card with standard sizes
+        // Sizes: 'sm' (methodology), 'md' (services), 'lg' (profile cards)
+        const CARD_SIZES = {
+            sm: { padding: 'p-7', iconSize: 24, titleClass: 'text-xl', rounded: 'rounded-lg' },
+            md: { padding: 'p-8', iconSize: 32, titleClass: 'text-xl', rounded: 'rounded-sm' },
+            lg: { padding: 'p-8 md:p-10', iconSize: 28, titleClass: 'text-2xl', rounded: 'rounded-lg' },
+        };
+
+        const AnimatedCard = ({ size = 'md', className = '', children, as: Tag = 'div' }) => {
+            const { theme } = useTheme();
+            const dim = CARD_SIZES[size] || CARD_SIZES.md;
+
+            return (
+                <Tag
+                    className={`group relative overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-2 ${dim.rounded} ${className}`}
+                    style={{
+                        background: theme === 'light'
+                            ? 'linear-gradient(180deg, rgba(248, 249, 250, 0.9) 0%, rgba(255, 255, 255, 1) 100%)'
+                            : 'linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%)',
+                        border: '1px solid',
+                        borderColor: theme === 'light' ? 'rgba(37, 32, 101, 0.08)' : 'rgba(255, 255, 255, 0.06)',
+                        boxShadow: theme === 'light'
+                            ? '0 4px 24px rgba(37, 32, 101, 0.06)'
+                            : '0 4px 24px rgba(0, 0, 0, 0.2)'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = theme === 'light' ? 'rgba(228, 179, 69, 0.4)' : 'rgba(228, 179, 69, 0.25)';
+                        e.currentTarget.style.boxShadow = theme === 'light'
+                            ? '0 20px 60px rgba(37, 32, 101, 0.12)'
+                            : '0 20px 60px rgba(228, 179, 69, 0.08)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = theme === 'light' ? 'rgba(37, 32, 101, 0.08)' : 'rgba(255, 255, 255, 0.06)';
+                        e.currentTarget.style.boxShadow = theme === 'light'
+                            ? '0 4px 24px rgba(37, 32, 101, 0.06)'
+                            : '0 4px 24px rgba(0, 0, 0, 0.2)';
+                    }}
+                >
+                    {/* Top accent bar */}
+                    <div className="h-1 w-full bg-gradient-to-r from-potencia-blue to-potencia-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    <div className={`${dim.padding} flex flex-col flex-grow`}>
+                        {children}
+                    </div>
+                </Tag>
+            );
+        };
+
         const ThemeToggle = () => {
             const { theme, toggleTheme } = useTheme();
             
@@ -367,9 +414,11 @@
             };
 
             const navLinks = [
+                { name: 'Quem Atendemos', id: 'quem-atendemos' },
+                { name: 'Diagnóstico Gratuito', id: 'diagnostico' },
                 { name: 'Serviços', id: 'servicos' },
-                { name: 'Insights', id: 'insights' },
                 { name: 'Sobre', id: 'sobre' },
+                { name: 'Insights', id: 'insights' },
             ];
 
             return (
@@ -477,23 +526,23 @@
                             </p>
                             
                             <div className="flex flex-col sm:flex-row gap-5 pb-12">
-                                <button 
-                                    onClick={() => document.getElementById('servicos').scrollIntoView({behavior: 'smooth'})} 
+                                <button
+                                    onClick={() => document.getElementById('diagnostico').scrollIntoView({behavior: 'smooth'})}
                                     className="px-10 py-5 bg-potencia-gold text-black font-bold text-lg rounded-sm hover:scale-105 transition-all duration-300 shadow-lg"
-                                    style={{ 
-                                        boxShadow: `0 10px 40px ${theme === 'light' ? 'rgba(228, 179, 69, 0.25)' : 'rgba(228, 179, 69, 0.20)'}` 
+                                    style={{
+                                        boxShadow: `0 10px 40px ${theme === 'light' ? 'rgba(228, 179, 69, 0.25)' : 'rgba(228, 179, 69, 0.20)'}`
                                     }}
                                     onMouseEnter={(e) => e.target.style.backgroundColor = theme === 'light' ? '#d4a535' : '#ffffff'}
                                     onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(228, 179, 69, 1)'}
                                 >
-                                    Nossos Serviços
+                                    Diagnóstico Gratuito
                                 </button>
-                                <button 
-                                    onClick={() => document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})} 
+                                <button
+                                    onClick={() => document.getElementById('servicos').scrollIntoView({behavior: 'smooth'})}
                                     className="px-10 py-5 glass-card font-bold text-lg rounded-sm hover:border-potencia-gold hover:text-potencia-gold transition-all duration-300"
                                     style={{ color: 'var(--text-primary)' }}
                                 >
-                                    Conheça a PotêncIA
+                                    Nossos Serviços
                                 </button>
                             </div>
                         </div>
@@ -502,6 +551,230 @@
                     {/* Scroll Indicator */}
                     <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
                         <i data-lucide="chevron-down" style={{ color: 'var(--text-tertiary)' }}></i>
+                    </div>
+                </section>
+            );
+        };
+
+        const QuemAtendemos = () => {
+            const { theme } = useTheme();
+
+            const profiles = [
+                {
+                    title: "Indústrias Mid-Market",
+                    icon: "factory",
+                    segments: ["Alimentos", "Metalurgia", "Têxtil", "Química", "Agronegócio", "Logística"],
+                    problems: [
+                        "SAP implementado mas Excel ainda manda",
+                        "CRM não conversa com ERP",
+                        "Cada área comprou solução diferente",
+                        "Zero governança, crescimento travado"
+                    ],
+                    solutions: [
+                        "Diagnóstico 360°",
+                        "Plano Diretor IT/OT",
+                        "Implementação Orquestrada",
+                        "ROI Mensurável"
+                    ]
+                },
+                {
+                    title: "ISPs e Provedores Regionais",
+                    icon: "radio-tower",
+                    segments: ["Provedores regionais de internet e conectividade"],
+                    problems: [
+                        "Conectividade virou commodity",
+                        "Margem sangrando com competição",
+                        "Clientes exigem mais que \"só internet\"",
+                        "Não sabem como diversificar receita"
+                    ],
+                    solutions: [
+                        "Workshop Estratégico",
+                        "Roadmap Diversificação (Cyber, Cloud, Gestão)",
+                        "One-Stop Tech Shop"
+                    ]
+                },
+                {
+                    title: "Integradores Regionais",
+                    icon: "settings",
+                    segments: ["System integrators que precisam profissionalizar operação"],
+                    problems: [
+                        "Fabricantes não assinam parcerias formais",
+                        "Suporte pré-venda limitado",
+                        "Suporte técnico N3 inexistente",
+                        "Difícil competir com grandes"
+                    ],
+                    solutions: [
+                        "Estruturação de Alianças",
+                        "Pré-venda como Serviço",
+                        "Suporte Internacional",
+                        "Programa Comercial"
+                    ]
+                }
+            ];
+
+            const diagnosticoItems = [
+                "Mapeamento processos e sistemas atuais",
+                "Identificação de gargalos críticos",
+                "Roadmap priorizado com estimativa ROI",
+                "Recomendações de quick wins"
+            ];
+
+            return (
+                <section id="quem-atendemos" className="py-32 relative" style={{ background: 'var(--bg-primary)' }} aria-label="Quem Atendemos">
+                    <div className="container mx-auto px-6">
+                        {/* Section Header */}
+                        <div className="text-center mb-8">
+                            <h2 className="font-display text-4xl md:text-5xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Quem Atendemos</h2>
+                            <div className="h-1 w-24 bg-potencia-gold rounded-full mx-auto mb-6"></div>
+                            <p className="text-lg font-medium" style={{ color: 'var(--text-secondary)' }}>
+                                Três perfis de organizações que transformamos
+                            </p>
+                        </div>
+                        <p className="text-center text-lg max-w-3xl mx-auto mb-16 leading-relaxed" style={{ color: 'var(--text-tertiary)' }}>
+                            Trabalhamos com empresas que enfrentam complexidade tecnológica em momentos críticos de crescimento.
+                        </p>
+
+                        {/* Profile Cards */}
+                        <div className="grid md:grid-cols-3 gap-8 mb-20">
+                            {profiles.map((profile, index) => (
+                                <AnimatedCard key={index} size="lg" as="article">
+                                    {/* Icon */}
+                                    <div className="mb-6">
+                                        <div
+                                            className="p-3 rounded-lg w-fit group-hover:bg-potencia-gold/15 transition-colors duration-300"
+                                            style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.04)' : 'rgba(255, 255, 255, 0.04)' }}
+                                        >
+                                            <div className="text-potencia-gold">
+                                                <i data-lucide={profile.icon} width={CARD_SIZES.lg.iconSize} height={CARD_SIZES.lg.iconSize}></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Title */}
+                                    <h3 className={`font-display ${CARD_SIZES.lg.titleClass} font-bold mb-3 group-hover:text-potencia-gold transition-colors`} style={{ color: 'var(--text-primary)' }}>
+                                        {profile.title}
+                                    </h3>
+
+                                    {/* Segments as tags */}
+                                    <div className="flex flex-wrap gap-2 mb-8">
+                                        {profile.segments.map((seg, i) => (
+                                            <span
+                                                key={i}
+                                                className="text-xs px-2.5 py-1 rounded-full font-medium"
+                                                style={{
+                                                    background: theme === 'light' ? 'rgba(37, 32, 101, 0.06)' : 'rgba(255, 255, 255, 0.06)',
+                                                    color: 'var(--text-tertiary)'
+                                                }}
+                                            >
+                                                {seg}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* Divider */}
+                                    <div className="h-px w-full mb-6" style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.08)' : 'rgba(255, 255, 255, 0.06)' }}></div>
+
+                                    {/* Problem */}
+                                    <div className="mb-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-red-400"></div>
+                                            <span className="text-xs font-bold uppercase tracking-[0.15em]" style={{ color: 'var(--text-tertiary)' }}>Problema típico</span>
+                                        </div>
+                                        <ul className="space-y-2.5 pl-1">
+                                            {profile.problems.map((item, i) => (
+                                                <li key={i} className="flex items-start gap-2.5">
+                                                    <div className="mt-1.5 flex-shrink-0">
+                                                        <div className="w-1 h-1 rounded-full" style={{ background: 'var(--text-tertiary)', opacity: 0.5 }}></div>
+                                                    </div>
+                                                    <span className="text-sm leading-relaxed" style={{ color: 'var(--text-tertiary)' }}>{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    {/* Solution */}
+                                    <div className="mb-8 flex-grow">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-potencia-gold"></div>
+                                            <span className="text-xs font-bold uppercase tracking-[0.15em]" style={{ color: 'var(--text-tertiary)' }}>Solução</span>
+                                        </div>
+                                        <ul className="space-y-2.5 pl-1">
+                                            {profile.solutions.map((step, i) => (
+                                                <li key={i} className="flex items-start gap-2.5">
+                                                    <div className="text-potencia-gold mt-0.5 flex-shrink-0">
+                                                        <i data-lucide="chevron-right" width="14" height="14"></i>
+                                                    </div>
+                                                    <span className="text-sm leading-relaxed font-medium" style={{ color: 'var(--text-secondary)' }}>{step}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    {/* CTA */}
+                                    <button
+                                        onClick={() => document.getElementById('diagnostico').scrollIntoView({behavior: 'smooth'})}
+                                        className="w-full py-3.5 border border-potencia-gold/40 text-potencia-gold hover:bg-potencia-gold hover:text-black transition-all duration-300 rounded-sm font-bold text-sm uppercase tracking-wide focus-visible:ring-2 focus-visible:ring-potencia-gold focus-visible:ring-offset-2 group-hover:border-potencia-gold/60"
+                                    >
+                                        Agende Diagnóstico Gratuito
+                                    </button>
+                                </AnimatedCard>
+                            ))}
+                        </div>
+
+                        {/* Diagnóstico Gratuito Box */}
+                        <div
+                            id="diagnostico"
+                            role="region"
+                            aria-label="Diagnóstico Gratuito"
+                            className="relative overflow-hidden rounded-lg p-10 md:p-14"
+                            style={{
+                                background: theme === 'light'
+                                    ? 'linear-gradient(135deg, rgba(37, 32, 101, 0.06), rgba(228, 179, 69, 0.08))'
+                                    : 'linear-gradient(135deg, rgba(37, 32, 101, 0.25), rgba(228, 179, 69, 0.08))',
+                                border: '1px solid',
+                                borderColor: theme === 'light' ? 'rgba(228, 179, 69, 0.25)' : 'rgba(228, 179, 69, 0.15)',
+                                boxShadow: theme === 'light'
+                                    ? '0 10px 40px rgba(37, 32, 101, 0.08)'
+                                    : '0 10px 40px rgba(0, 0, 0, 0.3)'
+                            }}
+                        >
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-potencia-gold rounded-full blur-[120px]" style={{ opacity: theme === 'light' ? '0.08' : '0.05' }}></div>
+
+                            <div className="relative z-10 grid md:grid-cols-2 gap-10 items-center">
+                                <div>
+                                    <h3 className="font-display text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+                                        Diagnóstico Gratuito
+                                    </h3>
+                                    <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
+                                        Entendemos sua operação, mapeamos gargalos críticos e entregamos relatório executivo com roadmap priorizado. Sem compromisso, sem custo.
+                                    </p>
+                                    <button
+                                        onClick={() => document.getElementById('contato').scrollIntoView({behavior: 'smooth'})}
+                                        className="px-10 py-4 bg-potencia-gold text-black font-bold text-lg rounded-sm hover:scale-105 transition-all duration-300 shadow-lg focus-visible:ring-2 focus-visible:ring-potencia-gold focus-visible:ring-offset-2"
+                                        style={{
+                                            boxShadow: `0 10px 40px ${theme === 'light' ? 'rgba(228, 179, 69, 0.25)' : 'rgba(228, 179, 69, 0.20)'}`
+                                        }}
+                                        onMouseEnter={(e) => e.target.style.backgroundColor = theme === 'light' ? '#d4a535' : '#ffffff'}
+                                        onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(228, 179, 69, 1)'}
+                                    >
+                                        Solicitar Diagnóstico Gratuito
+                                    </button>
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold uppercase tracking-wider mb-4" style={{ color: 'var(--text-tertiary)' }}>Inclui:</p>
+                                    <ul className="space-y-4">
+                                        {diagnosticoItems.map((item, idx) => (
+                                            <li key={idx} className="flex items-start gap-3">
+                                                <div className="text-potencia-gold mt-0.5 flex-shrink-0">
+                                                    <i data-lucide="check-circle" width="20" height="20"></i>
+                                                </div>
+                                                <span className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
             );
@@ -547,29 +820,19 @@
                         
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {services.map((service, index) => (
-                                <div 
-                                    key={index} 
-                                    className="group glass-card p-8 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden rounded-sm"
-                                    style={{
-                                        '&:hover': {
-                                            background: theme === 'light' ? 'rgba(248, 249, 250, 1)' : 'rgba(255, 255, 255, 0.05)'
-                                        }
-                                    }}
-                                >
-                                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-potencia-blue to-potencia-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-                                    
-                                    <div 
+                                <AnimatedCard key={index} size="md">
+                                    <div
                                         className="mb-8 p-4 rounded-full w-fit group-hover:bg-potencia-gold/20 transition-colors duration-300"
                                         style={{ background: theme === 'light' ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.05)' }}
                                     >
                                         <div className="text-potencia-gold">
-                                            <i data-lucide={service.icon} width="32" height="32"></i>
+                                            <i data-lucide={service.icon} width={CARD_SIZES.md.iconSize} height={CARD_SIZES.md.iconSize}></i>
                                         </div>
                                     </div>
-                                    
-                                    <h3 className="font-display text-xl font-bold mb-4 group-hover:text-potencia-gold transition-colors" style={{ color: 'var(--text-primary)' }}>{service.title}</h3>
+
+                                    <h3 className={`font-display ${CARD_SIZES.md.titleClass} font-bold mb-4 group-hover:text-potencia-gold transition-colors`} style={{ color: 'var(--text-primary)' }}>{service.title}</h3>
                                     <p className="text-sm leading-relaxed" style={{ color: 'var(--text-tertiary)' }}>{service.desc}</p>
-                                </div>
+                                </AnimatedCard>
                             ))}
                         </div>
                     </div>
@@ -628,20 +891,16 @@
 
                         <div className="grid gap-6 lg:grid-cols-4">
                             {steps.map((step, index) => (
-                                <div 
-                                    key={step.title} 
-                                    className="glass-card p-7 hover:border-potencia-gold/60 transition-all duration-300 rounded-lg flex flex-col h-full"
-                                    style={{ borderColor: 'var(--card-border)' }}
-                                >
+                                <AnimatedCard key={step.title} size="sm" className="h-full">
                                     <div className="flex items-center justify-between mb-6">
                                         <span className="text-[11px] uppercase tracking-[0.3em]" style={{ color: 'var(--text-tertiary)' }}>Etapa {String(index + 1).padStart(2, '0')}</span>
                                         <div className="text-potencia-gold">
-                                            <i data-lucide={step.icon} width="24" height="24"></i>
+                                            <i data-lucide={step.icon} width={CARD_SIZES.sm.iconSize} height={CARD_SIZES.sm.iconSize}></i>
                                         </div>
                                     </div>
-                                    <h3 className="font-display text-xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>{step.title}</h3>
+                                    <h3 className={`font-display ${CARD_SIZES.sm.titleClass} font-bold mb-3 group-hover:text-potencia-gold transition-colors`} style={{ color: 'var(--text-primary)' }}>{step.title}</h3>
                                     <p className="text-sm flex-grow" style={{ color: 'var(--text-tertiary)' }}>{step.desc}</p>
-                                </div>
+                                </AnimatedCard>
                             ))}
                         </div>
                     </div>
@@ -1028,6 +1287,7 @@
                 <div className="font-sans antialiased selection:bg-potencia-gold selection:text-black" style={{ color: 'var(--text-primary)' }}>
                     <Navigation />
                     <Hero />
+                    <QuemAtendemos />
                     <Services />
                     <Methodology />
                     <About />
