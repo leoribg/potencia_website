@@ -1113,9 +1113,6 @@
                 }
             ];
 
-            const featured = services[0];
-            const rest = services.slice(1);
-
             return (
                 <section id="servicos" className="py-32 relative" style={{ background: 'var(--bg-secondary)' }}>
                     <div className="container mx-auto px-6">
@@ -1130,35 +1127,8 @@
                             </p>
                         </div>
 
-                        {/* Featured Service Card */}
-                        <div className="mb-8">
-                            <AnimatedCard size="lg">
-                                <div className="flex flex-col lg:flex-row lg:items-center gap-8">
-                                    <div
-                                        className="p-5 rounded-full w-fit group-hover:bg-potencia-gold/20 transition-colors duration-300 flex-shrink-0"
-                                        style={{ background: theme === 'light' ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.05)' }}
-                                    >
-                                        <div className="text-potencia-gold">
-                                            <i data-lucide={featured.icon} width="40" height="40"></i>
-                                        </div>
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="font-display text-2xl lg:text-3xl font-bold mb-3 group-hover:text-potencia-gold transition-colors" style={{ color: 'var(--text-primary)' }}>{featured.title}</h3>
-                                        <p className="text-base leading-relaxed mb-4" style={{ color: 'var(--text-tertiary)' }}>{featured.desc}</p>
-                                        <button
-                                            onClick={() => document.getElementById('contato').scrollIntoView({behavior: 'smooth'})}
-                                            className="text-potencia-gold font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all uppercase tracking-wider"
-                                        >
-                                            Saiba mais <i data-lucide="arrow-right" width="16" height="16"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </AnimatedCard>
-                        </div>
-
-                        {/* Remaining Services */}
-                        <div className="grid md:grid-cols-3 gap-6">
-                            {rest.map((service, index) => (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {services.map((service, index) => (
                                 <AnimatedCard key={index} size="md" className="h-full">
                                     <div
                                         className="mb-8 p-4 rounded-full w-fit group-hover:bg-potencia-gold/20 transition-colors duration-300"
