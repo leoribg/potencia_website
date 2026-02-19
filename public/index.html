@@ -1575,77 +1575,6 @@
             );
         };
 
-        const TrustSection = () => {
-            const { theme } = useTheme();
-            const { ref, isVisible } = useScrollReveal({ threshold: 0.2 });
-
-            useEffect(() => {
-                if (isVisible) lucide.createIcons();
-            }, [isVisible]);
-
-            const trustItems = [
-                {
-                    title: 'Governança & Conformidade',
-                    icon: 'shield-check',
-                    desc: 'Frameworks e certificações que garantem segurança e compliance.',
-                    badges: ['ISO 27001', 'LGPD', 'SOC 2', 'PCI DSS'],
-                },
-                {
-                    title: 'Parceiros Tecnológicos',
-                    icon: 'handshake',
-                    desc: 'Alianças estratégicas com líderes globais de tecnologia.',
-                    badges: ['AWS Partner', 'Microsoft', 'Google Cloud', 'IBM'],
-                },
-            ];
-
-            return (
-                <section
-                    ref={ref}
-                    className={`py-24 reveal ${isVisible ? 'visible' : ''}`}
-                    style={{ background: 'var(--bg-primary)' }}
-                    aria-label="Certificações e Parcerias"
-                >
-                    <div className="container mx-auto px-6">
-                        <div className="text-center mb-14">
-                            <span className="text-potencia-gold text-xs font-bold uppercase tracking-[0.4em] mb-3 block">Confiança & Excelência</span>
-                            <h2 className="font-display text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>Certificações e Parcerias</h2>
-                        </div>
-                        <div className="grid lg:grid-cols-2 gap-8">
-                            {trustItems.map((item, i) => (
-                                <AnimatedCard key={i} size="lg">
-                                    <div className="flex items-center gap-4 mb-8">
-                                        <div className="p-4 rounded-lg bg-potencia-gold/10">
-                                            <i data-lucide={item.icon} width="32" height="32" className="text-potencia-gold"></i>
-                                        </div>
-                                        <div>
-                                            <h3 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{item.title}</h3>
-                                            <p className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>{item.desc}</p>
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        {item.badges.map((badge, j) => (
-                                            <div
-                                                key={j}
-                                                className="flex items-center justify-center text-center p-5 rounded-lg border font-bold text-sm"
-                                                style={{
-                                                    background: theme === 'light'
-                                                        ? 'linear-gradient(135deg, rgba(37,32,101,0.06), rgba(228,179,69,0.08))'
-                                                        : 'linear-gradient(135deg, rgba(37,32,101,0.15), rgba(228,179,69,0.05))',
-                                                    borderColor: 'var(--border-primary)',
-                                                    color: 'var(--text-secondary)',
-                                                }}
-                                            >
-                                                {badge}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </AnimatedCard>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
 
         const Contact = () => {
             const { theme } = useTheme();
@@ -1948,7 +1877,7 @@
                     <ExperienceCases />
                     <CTABanner />
                     <Insights />
-                    <TrustSection />
+
                     <Contact />
                     <Footer />
                 </div>
