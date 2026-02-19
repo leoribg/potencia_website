@@ -769,43 +769,205 @@
             );
         };
 
-        const HeroGraphic = ({ theme }) => (
-            <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                {/* Abstract geometric composition */}
-                <circle cx="250" cy="250" r="180" stroke={theme === 'light' ? 'rgba(37,32,101,0.1)' : 'rgba(255,255,255,0.06)'} strokeWidth="1" />
-                <circle cx="250" cy="250" r="130" stroke="rgba(228,179,69,0.15)" strokeWidth="1" />
-                <circle cx="250" cy="250" r="80" stroke={theme === 'light' ? 'rgba(37,32,101,0.08)' : 'rgba(255,255,255,0.04)'} strokeWidth="1" />
-                {/* Floating nodes */}
-                <circle cx="250" cy="70" r="6" fill="rgba(228,179,69,0.6)">
-                    <animateTransform attributeName="transform" type="translate" values="0,0;0,8;0,0" dur="4s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="430" cy="250" r="5" fill={theme === 'light' ? 'rgba(37,32,101,0.3)' : 'rgba(255,255,255,0.2)'}>
-                    <animateTransform attributeName="transform" type="translate" values="0,0;0,-6;0,0" dur="5s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="120" cy="380" r="4" fill="rgba(228,179,69,0.4)">
-                    <animateTransform attributeName="transform" type="translate" values="0,0;4,0;0,0" dur="6s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="370" cy="400" r="5" fill={theme === 'light' ? 'rgba(37,32,101,0.2)' : 'rgba(255,255,255,0.12)'}>
-                    <animateTransform attributeName="transform" type="translate" values="0,0;-5,3;0,0" dur="4.5s" repeatCount="indefinite" />
-                </circle>
-                {/* Connecting lines */}
-                <line x1="250" y1="70" x2="430" y2="250" stroke="rgba(228,179,69,0.08)" strokeWidth="1" strokeDasharray="4 4" />
-                <line x1="430" y1="250" x2="370" y2="400" stroke={theme === 'light' ? 'rgba(37,32,101,0.06)' : 'rgba(255,255,255,0.04)'} strokeWidth="1" strokeDasharray="4 4" />
-                <line x1="120" y1="380" x2="250" y2="70" stroke="rgba(228,179,69,0.06)" strokeWidth="1" strokeDasharray="4 4" />
-                {/* Hexagons */}
-                <polygon points="250,140 290,165 290,215 250,240 210,215 210,165" stroke="rgba(228,179,69,0.12)" strokeWidth="1" fill="rgba(228,179,69,0.02)">
-                    <animateTransform attributeName="transform" type="rotate" values="0 250 190;360 250 190" dur="60s" repeatCount="indefinite" />
-                </polygon>
-                <polygon points="320,260 350,280 350,320 320,340 290,320 290,280" stroke={theme === 'light' ? 'rgba(37,32,101,0.1)' : 'rgba(255,255,255,0.06)'} strokeWidth="1" fill="none">
-                    <animateTransform attributeName="transform" type="rotate" values="360 320 300;0 320 300" dur="45s" repeatCount="indefinite" />
-                </polygon>
-                {/* Accent glow */}
-                <circle cx="250" cy="250" r="40" fill="rgba(228,179,69,0.04)">
-                    <animate attributeName="r" values="40;50;40" dur="4s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0.04;0.08;0.04" dur="4s" repeatCount="indefinite" />
-                </circle>
-            </svg>
-        );
+        const HeroAnimation = ({ theme }) => {
+            const canvasRef = useRef(null);
+            const mouseRef = useRef({ x: -1000, y: -1000, active: false });
+            const particlesRef = useRef([]);
+            const animFrameRef = useRef(null);
+
+            useEffect(() => {
+                const canvas = canvasRef.current;
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const dpr = window.devicePixelRatio || 1;
+
+                const GOLD = { r: 228, g: 179, b: 69 };
+                const BLUE = { r: 37, g: 32, b: 101 };
+                const WHITE = { r: 255, g: 255, b: 255 };
+                const PARTICLE_COUNT = 55;
+                const CONNECTION_DIST = 120;
+                const MOUSE_RADIUS = 150;
+                const isLight = theme === 'light';
+
+                const resize = () => {
+                    const rect = canvas.parentElement.getBoundingClientRect();
+                    canvas.width = rect.width * dpr;
+                    canvas.height = rect.height * dpr;
+                    canvas.style.width = rect.width + 'px';
+                    canvas.style.height = rect.height + 'px';
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                };
+                resize();
+
+                const w = () => canvas.width / (window.devicePixelRatio || 1);
+                const h = () => canvas.height / (window.devicePixelRatio || 1);
+
+                // Init particles
+                if (particlesRef.current.length === 0) {
+                    for (let i = 0; i < PARTICLE_COUNT; i++) {
+                        const isGold = Math.random() < 0.55;
+                        const col = isGold ? GOLD : (isLight ? BLUE : WHITE);
+                        particlesRef.current.push({
+                            x: Math.random() * 500,
+                            y: Math.random() * 500,
+                            vx: (Math.random() - 0.5) * 0.6,
+                            vy: (Math.random() - 0.5) * 0.6,
+                            r: Math.random() * 2.5 + 1.2,
+                            col,
+                            alpha: isGold
+                                ? (Math.random() * 0.4 + 0.3)
+                                : (isLight ? Math.random() * 0.25 + 0.1 : Math.random() * 0.2 + 0.08),
+                            baseAlpha: 0,
+                            phase: Math.random() * Math.PI * 2,
+                        });
+                        particlesRef.current[particlesRef.current.length - 1].baseAlpha =
+                            particlesRef.current[particlesRef.current.length - 1].alpha;
+                    }
+                }
+
+                const particles = particlesRef.current;
+                let time = 0;
+
+                const draw = () => {
+                    const W = w();
+                    const H = h();
+                    ctx.clearRect(0, 0, W, H);
+                    time += 0.008;
+                    const mouse = mouseRef.current;
+
+                    // Central glow
+                    const glowR = 80 + Math.sin(time * 1.2) * 15;
+                    const glowAlpha = isLight ? 0.04 + Math.sin(time) * 0.015 : 0.06 + Math.sin(time) * 0.02;
+                    const grd = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, glowR);
+                    grd.addColorStop(0, `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${glowAlpha})`);
+                    grd.addColorStop(0.6, `rgba(${BLUE.r},${BLUE.g},${BLUE.b},${glowAlpha * 0.3})`);
+                    grd.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = grd;
+                    ctx.beginPath();
+                    ctx.arc(W / 2, H / 2, glowR, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Orbit rings
+                    const ringAlpha = isLight ? 0.06 : 0.04;
+                    [0.38, 0.28, 0.18].forEach(ratio => {
+                        ctx.beginPath();
+                        ctx.arc(W / 2, H / 2, Math.min(W, H) * ratio, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${ringAlpha})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    });
+
+                    // Update & draw particles
+                    for (let i = 0; i < particles.length; i++) {
+                        const p = particles[i];
+
+                        // Organic drift
+                        p.x += p.vx + Math.sin(time + p.phase) * 0.15;
+                        p.y += p.vy + Math.cos(time + p.phase * 1.3) * 0.15;
+
+                        // Mouse attraction
+                        if (mouse.active) {
+                            const dx = mouse.x - p.x;
+                            const dy = mouse.y - p.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < MOUSE_RADIUS && dist > 1) {
+                                const force = (1 - dist / MOUSE_RADIUS) * 0.8;
+                                p.vx += (dx / dist) * force * 0.3;
+                                p.vy += (dy / dist) * force * 0.3;
+                                p.alpha = Math.min(p.baseAlpha * 2.0, p.baseAlpha + force * 0.3);
+                            } else {
+                                p.alpha += (p.baseAlpha - p.alpha) * 0.03;
+                            }
+                        } else {
+                            p.alpha += (p.baseAlpha - p.alpha) * 0.03;
+                        }
+
+                        // Damping
+                        p.vx *= 0.992;
+                        p.vy *= 0.992;
+
+                        // Wrap edges
+                        if (p.x < -10) p.x = W + 10;
+                        if (p.x > W + 10) p.x = -10;
+                        if (p.y < -10) p.y = H + 10;
+                        if (p.y > H + 10) p.y = -10;
+
+                        // Draw particle
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(${p.col.r},${p.col.g},${p.col.b},${p.alpha})`;
+                        ctx.fill();
+
+                        // Glow around particle
+                        if (p.r > 2) {
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+                            ctx.fillStyle = `rgba(${p.col.r},${p.col.g},${p.col.b},${p.alpha * 0.08})`;
+                            ctx.fill();
+                        }
+                    }
+
+                    // Connection lines
+                    for (let i = 0; i < particles.length; i++) {
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const dx = particles[i].x - particles[j].x;
+                            const dy = particles[i].y - particles[j].y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < CONNECTION_DIST) {
+                                const lineAlpha = (1 - dist / CONNECTION_DIST) * (isLight ? 0.08 : 0.06);
+                                ctx.beginPath();
+                                ctx.moveTo(particles[i].x, particles[i].y);
+                                ctx.lineTo(particles[j].x, particles[j].y);
+                                ctx.strokeStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${lineAlpha})`;
+                                ctx.lineWidth = 0.6;
+                                ctx.stroke();
+                            }
+                        }
+                    }
+
+                    // Mouse glow
+                    if (mouse.active) {
+                        const mgrd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, MOUSE_RADIUS * 0.7);
+                        mgrd.addColorStop(0, `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${isLight ? 0.06 : 0.08})`);
+                        mgrd.addColorStop(1, 'rgba(0,0,0,0)');
+                        ctx.fillStyle = mgrd;
+                        ctx.beginPath();
+                        ctx.arc(mouse.x, mouse.y, MOUSE_RADIUS * 0.7, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    animFrameRef.current = requestAnimationFrame(draw);
+                };
+
+                animFrameRef.current = requestAnimationFrame(draw);
+
+                const ro = new ResizeObserver(resize);
+                ro.observe(canvas.parentElement);
+
+                return () => {
+                    cancelAnimationFrame(animFrameRef.current);
+                    ro.disconnect();
+                };
+            }, [theme]);
+
+            const handleMouseMove = (e) => {
+                const rect = canvasRef.current.getBoundingClientRect();
+                mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top, active: true };
+            };
+            const handleMouseLeave = () => {
+                mouseRef.current = { ...mouseRef.current, active: false };
+            };
+
+            return (
+                <canvas
+                    ref={canvasRef}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                    className="w-full h-full cursor-default"
+                    style={{ display: 'block' }}
+                />
+            );
+        };
 
         const Hero = () => {
             const { theme } = useTheme();
@@ -815,12 +977,15 @@
             const [animating, setAnimating] = useState(false);
 
             useEffect(() => {
+                if (currentWord === displayWord) return;
                 setAnimating(true);
-                const timer = setTimeout(() => {
+                const swapTimer = setTimeout(() => {
                     setDisplayWord(currentWord);
+                }, 350);
+                const showTimer = setTimeout(() => {
                     setAnimating(false);
-                }, 300);
-                return () => clearTimeout(timer);
+                }, 400);
+                return () => { clearTimeout(swapTimer); clearTimeout(showTimer); };
             }, [currentWord]);
 
             return (
@@ -841,18 +1006,24 @@
                                     <span className="text-potencia-gold text-xs font-bold tracking-widest uppercase">Consultoria em Transformação Digital</span>
                                 </div>
 
-                                <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-8 tracking-tight">
-                                    <span className="block whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
-                                        <span
-                                            className="inline-block transition-all duration-500 ease-out"
-                                            style={{
-                                                opacity: animating ? 0 : 1,
-                                                transform: animating ? 'translateY(-8px)' : 'translateY(0)',
-                                            }}
-                                        >
-                                            {displayWord}
+                                <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-8 tracking-tight">
+                                    <span className="block lg:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
+                                        <span className="inline-block relative">
+                                            {/* Invisible longest phrase to reserve width */}
+                                            <span className="invisible" aria-hidden="true">Governança Primeiro,</span>
+                                            {/* Visible cycling word overlaid */}
+                                            <span
+                                                className="absolute inset-0"
+                                                style={{
+                                                    opacity: animating ? 0 : 1,
+                                                    transform: animating ? 'translateY(-12px) scale(0.97)' : 'translateY(0) scale(1)',
+                                                    filter: animating ? 'blur(4px)' : 'blur(0px)',
+                                                    transition: 'opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1), filter 0.4s cubic-bezier(0.4,0,0.2,1)',
+                                                }}
+                                            >
+                                                {displayWord} Primeiro,
+                                            </span>
                                         </span>
-                                        {' '}Primeiro,
                                     </span>
                                     <span className="block gradient-text text-glow">Tecnologia Depois,</span>
                                     <span className="block" style={{ color: 'var(--text-primary)' }}>Resultados Sempre.</span>
@@ -891,9 +1062,9 @@
                                 </div>
                             </div>
 
-                            {/* Right: Geometric graphic (hidden on mobile/tablet) */}
-                            <div className="hidden lg:block flex-shrink-0 w-[380px] h-[380px] xl:w-[420px] xl:h-[420px] relative">
-                                <HeroGraphic theme={theme} />
+                            {/* Right: Interactive animation (hidden on mobile/tablet) */}
+                            <div className="hidden lg:flex flex-1 items-center justify-center min-h-[420px] relative">
+                                <HeroAnimation theme={theme} />
                             </div>
                         </div>
                     </div>
@@ -1524,7 +1695,7 @@
 
                         <div className="flex gap-8 overflow-x-auto scroll-snap-x pb-4 md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
                             {articles.map((art, idx) => (
-                                <div key={idx} className="min-w-[300px] md:min-w-0 scroll-snap-child">
+                                <div key={idx} className="min-w-[280px] md:min-w-0 scroll-snap-child">
                                     <AnimatedCard size="md" as="article" className="h-full">
                                         {/* Thumbnail */}
                                         <div className="-mx-8 -mt-8 mb-6 aspect-video overflow-hidden relative group-hover:opacity-90 transition-opacity">
