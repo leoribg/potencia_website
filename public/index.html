@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-br" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.tailwindcss.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://formspree.io https://*.google-analytics.com https://*.analytics.google.com https://*.googleapis.com https://*.firebaseio.com https://*.firebasestorage.app; img-src 'self' data: https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io">
     <title>PotêncIA Tech | Transformação Digital</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    
+
     <!-- React & ReactDOM -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"
+        integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"
+        integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1"></script>
+
     <!-- Babel -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script src="https://unpkg.com/@babel/standalone@7.26.10/babel.min.js" crossorigin="anonymous"
+        integrity="sha384-BcI7nduYchENm39cFMEVJXHEE7fwHONANyn/pY2YTa+BNtrWF2bKBZeI0wqVithi"></script>
+
+    <!-- Tailwind CSS (dynamic CDN, SRI not feasible) -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.474.0" crossorigin="anonymous"
+        integrity="sha384-wkxmY9HYHJVzx0oZ7k8stpLQ7g7ogSqBha75ozCZmxFadwtaIw5dzXKVWWfi9I36"></script>
 
     <!-- Google Fonts: Inter & Proxima Nova equivalent (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;700;800;900&display=swap"
+        rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -63,7 +73,7 @@
             }
         }
     </script>
-    
+
     <style>
         /* Theme Variables */
         :root {
@@ -71,21 +81,21 @@
             --bg-primary: #ffffff;
             --bg-secondary: #f8f9fa;
             --bg-tertiary: #e9ecef;
-            --text-primary: #252065;
-            --text-secondary: #3d3687;
-            --text-tertiary: #5a52a3;
-            --border-primary: rgba(37, 32, 101, 0.15);
-            --border-secondary: rgba(37, 32, 101, 0.08);
+            --text-primary: #1a1650;
+            --text-secondary: #2e2870;
+            --text-tertiary: #4a4478;
+            --border-primary: rgba(37, 32, 101, 0.2);
+            --border-secondary: rgba(37, 32, 101, 0.12);
             --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(37, 32, 101, 0.1);
+            --glass-border: rgba(37, 32, 101, 0.15);
             --card-bg: rgba(248, 249, 250, 0.8);
-            --card-border: rgba(37, 32, 101, 0.08);
+            --card-border: rgba(37, 32, 101, 0.14);
             --scrollbar-track: #f1f1f1;
             --scrollbar-thumb: #8b87c7;
-            --shadow-color: rgba(37, 32, 101, 0.15);
+            --shadow-color: rgba(37, 32, 101, 0.18);
             --glow-opacity: 0.15;
             --hero-glow-opacity: 0.2;
-            --gradient-text-start: #252065;
+            --gradient-text-start: #1a1650;
             --gradient-text-end: rgba(228, 179, 69, 1);
         }
 
@@ -117,22 +127,25 @@
             overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
-            background: var(--scrollbar-track); 
+            background: var(--scrollbar-track);
         }
+
         ::-webkit-scrollbar-thumb {
-            background: var(--scrollbar-thumb); 
+            background: var(--scrollbar-thumb);
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(228, 179, 69, 0.8); 
+            background: rgba(228, 179, 69, 0.8);
         }
-        
+
         .glass-nav {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -210,14 +223,21 @@
 
         /* Marquee Animation */
         @keyframes marquee-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
+
         .marquee-track {
             display: flex;
             width: max-content;
             animation: marquee-scroll 30s linear infinite;
         }
+
         .marquee-track:hover {
             animation-play-state: paused;
         }
@@ -230,25 +250,39 @@
             transform: translateY(30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
+
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
         /* Stagger children */
-        .reveal-stagger > * {
+        .reveal-stagger>* {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
-        .reveal-stagger.visible > * {
+
+        .reveal-stagger.visible>* {
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.1s; }
-        .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.2s; }
-        .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.3s; }
-        .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.4s; }
+
+        .reveal-stagger.visible>*:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-stagger.visible>*:nth-child(4) {
+            transition-delay: 0.4s;
+        }
 
         /* Mobile Horizontal Scroll Snap */
         .scroll-snap-x {
@@ -256,11 +290,19 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        .scroll-snap-x::-webkit-scrollbar { display: none; }
-        .scroll-snap-child { scroll-snap-align: start; }
+
+        .scroll-snap-x::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-snap-child {
+            scroll-snap-align: start;
+        }
 
         /* Counter tabular nums */
-        .counter-num { font-variant-numeric: tabular-nums; }
+        .counter-num {
+            font-variant-numeric: tabular-nums;
+        }
 
         /* Connector line for methodology */
         .connector-h {
@@ -269,21 +311,23 @@
             left: 12.5%;
             right: 12.5%;
             height: 2px;
-            background: linear-gradient(90deg, rgba(228,179,69,0.15), rgba(228,179,69,0.6), rgba(228,179,69,0.15));
+            background: linear-gradient(90deg, rgba(228, 179, 69, 0.15), rgba(228, 179, 69, 0.6), rgba(228, 179, 69, 0.15));
         }
+
         .connector-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: rgba(228,179,69,1);
+            background: rgba(228, 179, 69, 1);
             position: absolute;
             top: -5px;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 0 12px rgba(228,179,69,0.4);
+            box-shadow: 0 0 12px rgba(228, 179, 69, 0.4);
         }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
 
@@ -292,11 +336,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
         // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
             apiKey: "AIzaSyDuQdsobTMxE6DcdkyN00pDvBqOnpRMKbw",
             authDomain: "potencia-74784.firebaseapp.com",
@@ -314,6 +354,9 @@
 
     <script type="text/babel">
         const { useState, useEffect, useId, useRef, useCallback, createContext, useContext } = React;
+
+        // --- EMAIL HELPER ---
+        const getEmail = () => ['mauroperiquito', 'potenciatech', 'ai'].join('@').replace('@ai', '.ai');
 
         // --- THEME CONTEXT ---
         const ThemeContext = createContext();
@@ -437,21 +480,21 @@
                             ? 'linear-gradient(180deg, rgba(248, 249, 250, 0.9) 0%, rgba(255, 255, 255, 1) 100%)'
                             : 'linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%)',
                         border: '1px solid',
-                        borderColor: theme === 'light' ? 'rgba(37, 32, 101, 0.08)' : 'rgba(255, 255, 255, 0.06)',
+                        borderColor: theme === 'light' ? 'rgba(37, 32, 101, 0.14)' : 'rgba(255, 255, 255, 0.06)',
                         boxShadow: theme === 'light'
-                            ? '0 4px 24px rgba(37, 32, 101, 0.06)'
+                            ? '0 4px 24px rgba(37, 32, 101, 0.1)'
                             : '0 4px 24px rgba(0, 0, 0, 0.2)'
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = theme === 'light' ? 'rgba(228, 179, 69, 0.4)' : 'rgba(228, 179, 69, 0.25)';
+                        e.currentTarget.style.borderColor = theme === 'light' ? 'rgba(228, 179, 69, 0.5)' : 'rgba(228, 179, 69, 0.25)';
                         e.currentTarget.style.boxShadow = theme === 'light'
-                            ? '0 20px 60px rgba(37, 32, 101, 0.12)'
+                            ? '0 20px 60px rgba(37, 32, 101, 0.15)'
                             : '0 20px 60px rgba(228, 179, 69, 0.08)';
                     }}
                     onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = theme === 'light' ? 'rgba(37, 32, 101, 0.08)' : 'rgba(255, 255, 255, 0.06)';
+                        e.currentTarget.style.borderColor = theme === 'light' ? 'rgba(37, 32, 101, 0.14)' : 'rgba(255, 255, 255, 0.06)';
                         e.currentTarget.style.boxShadow = theme === 'light'
-                            ? '0 4px 24px rgba(37, 32, 101, 0.06)'
+                            ? '0 4px 24px rgba(37, 32, 101, 0.1)'
                             : '0 4px 24px rgba(0, 0, 0, 0.2)';
                     }}
                 >
@@ -466,9 +509,9 @@
 
         const ThemeToggle = () => {
             const { theme, toggleTheme } = useTheme();
-            
+
             return (
-                <button 
+                <button
                     onClick={toggleTheme}
                     className="theme-toggle"
                     aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
@@ -486,7 +529,7 @@
         };
 
         const Logo = () => (
-            <div className="flex flex-col leading-none select-none cursor-pointer group" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+            <div className="flex flex-col leading-none select-none cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                 <div className="flex items-baseline">
                     <span className="font-display font-black text-2xl tracking-normal text-potencia-blue group-hover:opacity-80 transition-opacity">
                         POTÊNC
@@ -734,32 +777,32 @@
                 <circle cx="250" cy="250" r="80" stroke={theme === 'light' ? 'rgba(37,32,101,0.08)' : 'rgba(255,255,255,0.04)'} strokeWidth="1" />
                 {/* Floating nodes */}
                 <circle cx="250" cy="70" r="6" fill="rgba(228,179,69,0.6)">
-                    <animateTransform attributeName="transform" type="translate" values="0,0;0,8;0,0" dur="4s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="translate" values="0,0;0,8;0,0" dur="4s" repeatCount="indefinite" />
                 </circle>
                 <circle cx="430" cy="250" r="5" fill={theme === 'light' ? 'rgba(37,32,101,0.3)' : 'rgba(255,255,255,0.2)'}>
-                    <animateTransform attributeName="transform" type="translate" values="0,0;0,-6;0,0" dur="5s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="translate" values="0,0;0,-6;0,0" dur="5s" repeatCount="indefinite" />
                 </circle>
                 <circle cx="120" cy="380" r="4" fill="rgba(228,179,69,0.4)">
-                    <animateTransform attributeName="transform" type="translate" values="0,0;4,0;0,0" dur="6s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="translate" values="0,0;4,0;0,0" dur="6s" repeatCount="indefinite" />
                 </circle>
                 <circle cx="370" cy="400" r="5" fill={theme === 'light' ? 'rgba(37,32,101,0.2)' : 'rgba(255,255,255,0.12)'}>
-                    <animateTransform attributeName="transform" type="translate" values="0,0;-5,3;0,0" dur="4.5s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="translate" values="0,0;-5,3;0,0" dur="4.5s" repeatCount="indefinite" />
                 </circle>
                 {/* Connecting lines */}
-                <line x1="250" y1="70" x2="430" y2="250" stroke="rgba(228,179,69,0.08)" strokeWidth="1" strokeDasharray="4 4"/>
-                <line x1="430" y1="250" x2="370" y2="400" stroke={theme === 'light' ? 'rgba(37,32,101,0.06)' : 'rgba(255,255,255,0.04)'} strokeWidth="1" strokeDasharray="4 4"/>
-                <line x1="120" y1="380" x2="250" y2="70" stroke="rgba(228,179,69,0.06)" strokeWidth="1" strokeDasharray="4 4"/>
+                <line x1="250" y1="70" x2="430" y2="250" stroke="rgba(228,179,69,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="430" y1="250" x2="370" y2="400" stroke={theme === 'light' ? 'rgba(37,32,101,0.06)' : 'rgba(255,255,255,0.04)'} strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="120" y1="380" x2="250" y2="70" stroke="rgba(228,179,69,0.06)" strokeWidth="1" strokeDasharray="4 4" />
                 {/* Hexagons */}
                 <polygon points="250,140 290,165 290,215 250,240 210,215 210,165" stroke="rgba(228,179,69,0.12)" strokeWidth="1" fill="rgba(228,179,69,0.02)">
-                    <animateTransform attributeName="transform" type="rotate" values="0 250 190;360 250 190" dur="60s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="rotate" values="0 250 190;360 250 190" dur="60s" repeatCount="indefinite" />
                 </polygon>
                 <polygon points="320,260 350,280 350,320 320,340 290,320 290,280" stroke={theme === 'light' ? 'rgba(37,32,101,0.1)' : 'rgba(255,255,255,0.06)'} strokeWidth="1" fill="none">
-                    <animateTransform attributeName="transform" type="rotate" values="360 320 300;0 320 300" dur="45s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="rotate" values="360 320 300;0 320 300" dur="45s" repeatCount="indefinite" />
                 </polygon>
                 {/* Accent glow */}
                 <circle cx="250" cy="250" r="40" fill="rgba(228,179,69,0.04)">
-                    <animate attributeName="r" values="40;50;40" dur="4s" repeatCount="indefinite"/>
-                    <animate attributeName="opacity" values="0.04;0.08;0.04" dur="4s" repeatCount="indefinite"/>
+                    <animate attributeName="r" values="40;50;40" dur="4s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.04;0.08;0.04" dur="4s" repeatCount="indefinite" />
                 </circle>
             </svg>
         );
@@ -828,7 +871,7 @@
 
                                 <div className="flex flex-col sm:flex-row gap-5 pb-12">
                                     <button
-                                        onClick={() => document.getElementById('diagnostico').scrollIntoView({behavior: 'smooth'})}
+                                        onClick={() => document.getElementById('diagnostico').scrollIntoView({ behavior: 'smooth' })}
                                         className="px-10 py-5 bg-potencia-gold text-black font-bold text-lg rounded-sm hover:scale-105 transition-all duration-300 shadow-lg"
                                         style={{
                                             boxShadow: `0 10px 40px ${theme === 'light' ? 'rgba(228, 179, 69, 0.25)' : 'rgba(228, 179, 69, 0.20)'}`
@@ -839,7 +882,7 @@
                                         Diagnóstico Gratuito
                                     </button>
                                     <button
-                                        onClick={() => document.getElementById('servicos').scrollIntoView({behavior: 'smooth'})}
+                                        onClick={() => document.getElementById('servicos').scrollIntoView({ behavior: 'smooth' })}
                                         className="px-10 py-5 glass-card font-bold text-lg rounded-sm hover:border-potencia-gold hover:text-potencia-gold transition-all duration-300"
                                         style={{ color: 'var(--text-primary)' }}
                                     >
@@ -871,51 +914,49 @@
                 {
                     title: "Indústrias Mid-Market",
                     icon: "factory",
-                    segments: ["Alimentos", "Metalurgia", "Têxtil", "Química", "Agronegócio", "Logística"],
                     problems: [
-                        "SAP implementado mas Excel ainda manda",
-                        "CRM não conversa com ERP",
-                        "Cada área comprou solução diferente",
-                        "Zero governança, crescimento travado"
+                        "ERP subutilizado e gestão via planilhas",
+                        "Sistemas isolados que não geram dados",
+                        "Tecnologia descentralizada e sem padrão",
+                        "Crescimento limitado por processos manuais"
                     ],
                     solutions: [
-                        "Diagnóstico 360°",
-                        "Plano Diretor IT/OT",
-                        "Implementação Orquestrada",
-                        "ROI Mensurável"
+                        "Diagnóstico de Maturidade Digital",
+                        "Integração de Sistemas e Dados",
+                        "Plano Diretor de Tecnologia",
+                        "Governança para Escalar"
                     ]
                 },
                 {
                     title: "ISPs e Provedores Regionais",
                     icon: "radio-tower",
-                    segments: ["Provedores regionais de internet e conectividade"],
                     problems: [
-                        "Conectividade virou commodity",
-                        "Margem sangrando com competição",
-                        "Clientes exigem mais que \"só internet\"",
-                        "Não sabem como diversificar receita"
+                        "Guerra de preços corroendo margens",
+                        "Conexão virou commodity",
+                        "Demanda por serviços além da internet",
+                        "Receita estagnada no plano básico"
                     ],
                     solutions: [
-                        "Workshop Estratégico",
-                        "Roadmap Diversificação (Cyber, Cloud, Gestão)",
-                        "One-Stop Tech Shop"
+                        "Estratégia de Serviços de Valor Agregado (SVA)",
+                        "Diversificação (Cyber, Cloud, Smart Home)",
+                        "Eficiência Operacional",
+                        "Reposicionamento de Mercado"
                     ]
                 },
                 {
                     title: "Integradores Regionais",
                     icon: "settings",
-                    segments: ["System integrators que precisam profissionalizar operação"],
                     problems: [
-                        "Fabricantes não assinam parcerias formais",
-                        "Suporte pré-venda limitado",
-                        "Suporte técnico N3 inexistente",
-                        "Difícil competir com grandes"
+                        "Barreiras de entrada com grandes vendors",
+                        "Equipe de pré-venda limitada",
+                        "Falta de suporte técnico avançado (N3)",
+                        "Perda de projetos para grandes players"
                     ],
                     solutions: [
-                        "Estruturação de Alianças",
-                        "Pré-venda como Serviço",
-                        "Suporte Internacional",
-                        "Programa Comercial"
+                        "Acesso a Parcerias Estratégicas",
+                        "Engine de Pré-venda e Projetos",
+                        "Backoffice Técnico Especializado",
+                        "Capacitação do Time Comercial"
                     ]
                 }
             ];
@@ -950,7 +991,7 @@
                                     <div className="mb-6">
                                         <div
                                             className="p-3 rounded-lg w-fit group-hover:bg-potencia-gold/15 transition-colors duration-300"
-                                            style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.04)' : 'rgba(255, 255, 255, 0.04)' }}
+                                            style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.07)' : 'rgba(255, 255, 255, 0.04)' }}
                                         >
                                             <div className="text-potencia-gold">
                                                 <i data-lucide={profile.icon} width={CARD_SIZES.lg.iconSize} height={CARD_SIZES.lg.iconSize}></i>
@@ -963,36 +1004,20 @@
                                         {profile.title}
                                     </h3>
 
-                                    {/* Segments as tags */}
-                                    <div className="flex flex-wrap gap-2 mb-8">
-                                        {profile.segments.map((seg, i) => (
-                                            <span
-                                                key={i}
-                                                className="text-xs px-2.5 py-1 rounded-full font-medium"
-                                                style={{
-                                                    background: theme === 'light' ? 'rgba(37, 32, 101, 0.06)' : 'rgba(255, 255, 255, 0.06)',
-                                                    color: 'var(--text-tertiary)'
-                                                }}
-                                            >
-                                                {seg}
-                                            </span>
-                                        ))}
-                                    </div>
-
                                     {/* Divider */}
-                                    <div className="h-px w-full mb-6" style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.08)' : 'rgba(255, 255, 255, 0.06)' }}></div>
+                                    <div className="h-px w-full mb-6" style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.14)' : 'rgba(255, 255, 255, 0.06)' }}></div>
 
                                     {/* Problem */}
                                     <div className="mb-6">
                                         <div className="flex items-center gap-2 mb-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-red-400"></div>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
                                             <span className="text-xs font-bold uppercase tracking-[0.15em]" style={{ color: 'var(--text-tertiary)' }}>Problema típico</span>
                                         </div>
                                         <ul className="space-y-2.5 pl-1">
                                             {profile.problems.map((item, i) => (
                                                 <li key={i} className="flex items-start gap-2.5">
-                                                    <div className="mt-1.5 flex-shrink-0">
-                                                        <div className="w-1 h-1 rounded-full" style={{ background: 'var(--text-tertiary)', opacity: 0.5 }}></div>
+                                                    <div className="text-red-500 mt-0.5 flex-shrink-0">
+                                                        <i data-lucide="chevron-right" width="14" height="14"></i>
                                                     </div>
                                                     <span className="text-sm leading-relaxed" style={{ color: 'var(--text-tertiary)' }}>{item}</span>
                                                 </li>
@@ -1003,13 +1028,13 @@
                                     {/* Solution */}
                                     <div className="mb-8 flex-grow">
                                         <div className="flex items-center gap-2 mb-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-potencia-gold"></div>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
                                             <span className="text-xs font-bold uppercase tracking-[0.15em]" style={{ color: 'var(--text-tertiary)' }}>Solução</span>
                                         </div>
                                         <ul className="space-y-2.5 pl-1">
                                             {profile.solutions.map((step, i) => (
                                                 <li key={i} className="flex items-start gap-2.5">
-                                                    <div className="text-potencia-gold mt-0.5 flex-shrink-0">
+                                                    <div className="text-emerald-500 mt-0.5 flex-shrink-0">
                                                         <i data-lucide="chevron-right" width="14" height="14"></i>
                                                     </div>
                                                     <span className="text-sm leading-relaxed font-medium" style={{ color: 'var(--text-secondary)' }}>{step}</span>
@@ -1018,13 +1043,6 @@
                                         </ul>
                                     </div>
 
-                                    {/* CTA */}
-                                    <button
-                                        onClick={() => document.getElementById('diagnostico').scrollIntoView({behavior: 'smooth'})}
-                                        className="w-full py-3.5 border border-potencia-gold/40 text-potencia-gold hover:bg-potencia-gold hover:text-black transition-all duration-300 rounded-sm font-bold text-sm uppercase tracking-wide focus-visible:ring-2 focus-visible:ring-potencia-gold focus-visible:ring-offset-2 group-hover:border-potencia-gold/60"
-                                    >
-                                        Agende Diagnóstico Gratuito
-                                    </button>
                                 </AnimatedCard>
                             ))}
                         </div>
@@ -1037,7 +1055,7 @@
                             className="relative overflow-hidden rounded-lg p-10 md:p-14"
                             style={{
                                 background: theme === 'light'
-                                    ? 'linear-gradient(135deg, rgba(37, 32, 101, 0.06), rgba(228, 179, 69, 0.08))'
+                                    ? 'linear-gradient(135deg, rgba(37, 32, 101, 0.08), rgba(228, 179, 69, 0.1))'
                                     : 'linear-gradient(135deg, rgba(37, 32, 101, 0.25), rgba(228, 179, 69, 0.08))',
                                 border: '1px solid',
                                 borderColor: theme === 'light' ? 'rgba(228, 179, 69, 0.25)' : 'rgba(228, 179, 69, 0.15)',
@@ -1057,7 +1075,7 @@
                                         Entendemos sua operação, mapeamos gargalos críticos e entregamos relatório executivo com roadmap priorizado. Sem compromisso, sem custo.
                                     </p>
                                     <button
-                                        onClick={() => document.getElementById('contato').scrollIntoView({behavior: 'smooth'})}
+                                        onClick={() => document.getElementById('contato').scrollIntoView({ behavior: 'smooth' })}
                                         className="px-10 py-4 bg-potencia-gold text-black font-bold text-lg rounded-sm hover:scale-105 transition-all duration-300 shadow-lg focus-visible:ring-2 focus-visible:ring-potencia-gold focus-visible:ring-offset-2"
                                         style={{
                                             boxShadow: `0 10px 40px ${theme === 'light' ? 'rgba(228, 179, 69, 0.25)' : 'rgba(228, 179, 69, 0.20)'}`
@@ -1132,7 +1150,7 @@
                                 <AnimatedCard key={index} size="md" className="h-full">
                                     <div
                                         className="mb-8 p-4 rounded-full w-fit group-hover:bg-potencia-gold/20 transition-colors duration-300"
-                                        style={{ background: theme === 'light' ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.05)' }}
+                                        style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.06)' : 'rgba(255, 255, 255, 0.05)' }}
                                     >
                                         <div className="text-potencia-gold">
                                             <i data-lucide={service.icon} width={CARD_SIZES.md.iconSize} height={CARD_SIZES.md.iconSize}></i>
@@ -1141,7 +1159,7 @@
                                     <h3 className={`font-display ${CARD_SIZES.md.titleClass} font-bold mb-4 group-hover:text-potencia-gold transition-colors`} style={{ color: 'var(--text-primary)' }}>{service.title}</h3>
                                     <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-tertiary)' }}>{service.desc}</p>
                                     <button
-                                        onClick={() => document.getElementById('contato').scrollIntoView({behavior: 'smooth'})}
+                                        onClick={() => document.getElementById('contato').scrollIntoView({ behavior: 'smooth' })}
                                         className="text-potencia-gold font-bold text-xs flex items-center gap-2 hover:gap-3 transition-all uppercase tracking-wider mt-auto"
                                     >
                                         Saiba mais <i data-lucide="arrow-right" width="14" height="14"></i>
@@ -1163,17 +1181,20 @@
                     <div className="hidden lg:block absolute -top-[29px] left-1/2 -translate-x-1/2 z-10">
                         <div className="connector-dot"></div>
                     </div>
-                    <AnimatedCard size="sm" className="h-full">
-                        <div className="flex items-center justify-between mb-6">
-                            <span className="text-[11px] uppercase tracking-[0.3em] counter-num" style={{ color: 'var(--text-tertiary)' }}>
-                                Etapa {String(count).padStart(2, '0')}
-                            </span>
+                    <AnimatedCard size="md" className="h-full">
+                        <span className="text-[11px] uppercase tracking-[0.3em] counter-num mb-4 block" style={{ color: 'var(--text-tertiary)' }}>
+                            Etapa {String(count).padStart(2, '0')}
+                        </span>
+                        <div
+                            className="mb-8 p-4 rounded-full w-fit group-hover:bg-potencia-gold/20 transition-colors duration-300"
+                            style={{ background: theme === 'light' ? 'rgba(37, 32, 101, 0.06)' : 'rgba(255, 255, 255, 0.05)' }}
+                        >
                             <div className="text-potencia-gold">
-                                <i data-lucide={step.icon} width={CARD_SIZES.sm.iconSize} height={CARD_SIZES.sm.iconSize}></i>
+                                <i data-lucide={step.icon} width={CARD_SIZES.md.iconSize} height={CARD_SIZES.md.iconSize}></i>
                             </div>
                         </div>
-                        <h3 className={`font-display ${CARD_SIZES.sm.titleClass} font-bold mb-3 group-hover:text-potencia-gold transition-colors`} style={{ color: 'var(--text-primary)' }}>{step.title}</h3>
-                        <p className="text-sm flex-grow" style={{ color: 'var(--text-tertiary)' }}>{step.desc}</p>
+                        <h3 className={`font-display ${CARD_SIZES.md.titleClass} font-bold mb-4 group-hover:text-potencia-gold transition-colors`} style={{ color: 'var(--text-primary)' }}>{step.title}</h3>
+                        <p className="text-sm leading-relaxed flex-grow" style={{ color: 'var(--text-tertiary)' }}>{step.desc}</p>
                     </AnimatedCard>
                 </div>
             );
@@ -1216,56 +1237,11 @@
                             {/* Horizontal connector line (desktop) */}
                             <div className="connector-h hidden lg:block"></div>
 
-                            <div className="grid gap-6 lg:grid-cols-4">
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {steps.map((step, index) => (
                                     <MethodologyStep key={step.title} step={step} index={index} total={steps.length} />
                                 ))}
                             </div>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-
-        const StatItem = ({ value, suffix, label, duration }) => {
-            const { ref, count } = useCountUp(value, duration);
-            return (
-                <div ref={ref} className="text-center">
-                    <div className="font-display text-5xl lg:text-6xl font-black text-potencia-gold mb-3 counter-num">
-                        {count}{suffix}
-                    </div>
-                    <div className="text-sm lg:text-base font-medium text-white/80 uppercase tracking-wider">
-                        {label}
-                    </div>
-                </div>
-            );
-        };
-
-        const StatsRow = () => {
-            const { theme } = useTheme();
-            const stats = [
-                { value: 23, suffix: '+', label: 'Anos de Experiência', duration: 2000 },
-                { value: 100, suffix: '+', label: 'Projetos Entregues', duration: 2500 },
-                { value: 50, suffix: 'M+', label: 'Em Investimentos Guiados', duration: 2200 },
-                { value: 98, suffix: '%', label: 'Satisfação de Clientes', duration: 1800 },
-            ];
-
-            return (
-                <section
-                    className="py-20 relative overflow-hidden"
-                    style={{
-                        background: theme === 'light'
-                            ? 'linear-gradient(135deg, rgba(37,32,101,0.95), rgba(26,22,77,1))'
-                            : 'linear-gradient(135deg, rgba(37,32,101,0.8), rgba(5,5,5,1))'
-                    }}
-                >
-                    <div className="absolute top-0 left-0 w-96 h-96 bg-potencia-gold/10 rounded-full blur-[150px]"></div>
-                    <div className="absolute bottom-0 right-0 w-80 h-80 bg-potencia-blue/20 rounded-full blur-[120px]"></div>
-                    <div className="container mx-auto px-6 relative z-10">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16">
-                            {stats.map((s, i) => (
-                                <StatItem key={i} {...s} />
-                            ))}
                         </div>
                     </div>
                 </section>
@@ -1315,36 +1291,40 @@
                             </div>
                         </div>
 
-                        {/* Photo Mosaic */}
+                        {/* Stats Grid */}
                         <div className="lg:w-1/2 order-1 lg:order-2">
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="glass-card aspect-square rounded-lg overflow-hidden" style={{ background: theme === 'light' ? 'linear-gradient(135deg, rgba(37,32,101,0.08), rgba(228,179,69,0.04))' : 'linear-gradient(135deg, rgba(37,32,101,0.3), rgba(228,179,69,0.08))' }}>
-                                    <div className="w-full h-full flex items-center justify-center">
-                                        <i data-lucide="users" width="40" height="40" style={{ color: 'var(--text-tertiary)', opacity: 0.3 }}></i>
-                                    </div>
-                                </div>
-                                <div className="glass-card aspect-square rounded-lg overflow-hidden" style={{ background: theme === 'light' ? 'linear-gradient(135deg, rgba(228,179,69,0.08), rgba(37,32,101,0.04))' : 'linear-gradient(135deg, rgba(228,179,69,0.12), rgba(37,32,101,0.08))' }}>
-                                    <div className="w-full h-full flex items-center justify-center">
-                                        <i data-lucide="building-2" width="40" height="40" style={{ color: 'var(--text-tertiary)', opacity: 0.3 }}></i>
-                                    </div>
-                                </div>
-                                <div className="glass-card aspect-square rounded-lg overflow-hidden" style={{ background: theme === 'light' ? 'linear-gradient(135deg, rgba(37,32,101,0.04), rgba(228,179,69,0.08))' : 'linear-gradient(135deg, rgba(37,32,101,0.08), rgba(228,179,69,0.12))' }}>
-                                    <div className="w-full h-full flex items-center justify-center">
-                                        <i data-lucide="presentation" width="40" height="40" style={{ color: 'var(--text-tertiary)', opacity: 0.3 }}></i>
-                                    </div>
-                                </div>
-                                <div className="glass-card aspect-square rounded-lg overflow-hidden" style={{ background: theme === 'light' ? 'linear-gradient(135deg, rgba(228,179,69,0.04), rgba(37,32,101,0.08))' : 'linear-gradient(135deg, rgba(228,179,69,0.06), rgba(37,32,101,0.15))' }}>
-                                    <div className="w-full h-full flex items-center justify-center">
-                                        <i data-lucide="handshake" width="40" height="40" style={{ color: 'var(--text-tertiary)', opacity: 0.3 }}></i>
-                                    </div>
-                                </div>
+                                {[
+                                    { value: 23, suffix: '+', label: 'Anos de Experiência', icon: 'calendar-check', duration: 2000 },
+                                    { value: 18, suffix: '', label: 'Países em 4 Continentes', icon: 'globe', duration: 2500 },
+                                    { value: 5, suffix: '.000+', label: 'Usuários Gerenciados', icon: 'users', duration: 2200 },
+                                    { value: 500, suffix: 'M+', label: 'Em Orçamentos de TI', icon: 'landmark', duration: 1800 },
+                                ].map((stat, i) => {
+                                    const { ref, count } = useCountUp(stat.value, stat.duration);
+                                    return (
+                                        <div
+                                            key={i}
+                                            ref={ref}
+                                            className="glass-card aspect-square rounded-lg overflow-hidden flex flex-col items-center justify-center text-center p-4"
+                                            style={{
+                                                background: theme === 'light'
+                                                    ? 'linear-gradient(135deg, rgba(37,32,101,0.06), rgba(228,179,69,0.06))'
+                                                    : 'linear-gradient(135deg, rgba(37,32,101,0.3), rgba(228,179,69,0.08))'
+                                            }}
+                                        >
+                                            <div className="text-potencia-gold mb-3">
+                                                <i data-lucide={stat.icon} width="28" height="28"></i>
+                                            </div>
+                                            <div className="font-display text-3xl md:text-4xl font-black text-potencia-gold mb-1 counter-num">
+                                                {count}{stat.suffix}
+                                            </div>
+                                            <div className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                                                {stat.label}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
-                            <button
-                                onClick={() => document.getElementById('contato').scrollIntoView({behavior: 'smooth'})}
-                                className="mt-8 w-full py-3 border border-potencia-gold/40 text-potencia-gold hover:bg-potencia-gold hover:text-black transition-all duration-300 rounded-sm font-bold uppercase tracking-wide text-sm"
-                            >
-                                Conheça Nosso Time
-                            </button>
                         </div>
                     </div>
                 </section>
@@ -1376,17 +1356,11 @@
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <button
-                                    onClick={() => document.getElementById('contato').scrollIntoView({behavior: 'smooth'})}
+                                    onClick={() => document.getElementById('contato').scrollIntoView({ behavior: 'smooth' })}
                                     className="px-10 py-4 bg-potencia-gold text-black font-bold text-lg rounded-sm hover:scale-105 transition-all duration-300 shadow-lg"
                                     style={{ boxShadow: '0 10px 40px rgba(228,179,69,0.25)' }}
                                 >
                                     Fale Conosco
-                                </button>
-                                <button
-                                    onClick={() => document.getElementById('diagnostico').scrollIntoView({behavior: 'smooth'})}
-                                    className="px-10 py-4 border-2 border-potencia-gold text-potencia-gold hover:bg-potencia-gold hover:text-black font-bold text-lg rounded-sm transition-all duration-300"
-                                >
-                                    Agende uma Conversa
                                 </button>
                             </div>
                         </div>
@@ -1445,7 +1419,7 @@
                                                 className="w-full h-full flex items-center justify-center transition-transform duration-500 group-hover:scale-[1.03]"
                                                 style={{
                                                     background: theme === 'light'
-                                                        ? 'linear-gradient(135deg, rgba(37,32,101,0.06), rgba(228,179,69,0.1))'
+                                                        ? 'linear-gradient(135deg, rgba(37,32,101,0.08), rgba(228,179,69,0.12))'
                                                         : 'linear-gradient(135deg, rgba(37,32,101,0.25), rgba(228,179,69,0.08))'
                                                 }}
                                             >
@@ -1534,7 +1508,7 @@
                                                 className="flex items-center justify-center text-center p-5 rounded-lg border font-bold text-sm"
                                                 style={{
                                                     background: theme === 'light'
-                                                        ? 'linear-gradient(135deg, rgba(37,32,101,0.03), rgba(228,179,69,0.05))'
+                                                        ? 'linear-gradient(135deg, rgba(37,32,101,0.06), rgba(228,179,69,0.08))'
                                                         : 'linear-gradient(135deg, rgba(37,32,101,0.15), rgba(228,179,69,0.05))',
                                                     borderColor: 'var(--border-primary)',
                                                     color: 'var(--text-secondary)',
@@ -1616,7 +1590,7 @@
                                         </div>
                                         <div>
                                             <h4 className="font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Email</h4>
-                                            <a href="mailto:mauroperiquito@potenciatech.ai" className="transition-colors" style={{ color: 'var(--text-tertiary)' }} onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'} onMouseLeave={(e) => e.target.style.color = 'var(--text-tertiary)'}>mauroperiquito@potenciatech.ai</a>
+                                            <a href={`mailto:${getEmail()}`} className="transition-colors" style={{ color: 'var(--text-tertiary)' }} onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'} onMouseLeave={(e) => e.target.style.color = 'var(--text-tertiary)'}>{getEmail()}</a>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-4">
@@ -1640,7 +1614,7 @@
                                 </div>
                             </div>
 
-                            <div 
+                            <div
                                 className="backdrop-blur-sm p-8 md:p-10 border rounded-lg shadow-2xl relative"
                                 style={{
                                     background: theme === 'light' ? 'rgba(248, 249, 250, 0.8)' : 'rgba(0, 0, 0, 0.5)',
@@ -1648,21 +1622,22 @@
                                 }}
                             >
                                 <div className="absolute top-0 right-0 w-20 h-20 bg-potencia-gold opacity-10 rounded-bl-full"></div>
-                                
-                                <form 
-                                    action="https://formspree.io/f/xanzrokl" 
+
+                                <form
+                                    action="https://formspree.io/f/xanzrokl"
                                     method="POST"
                                     onSubmit={handleSubmit}
                                     className="space-y-6 relative z-10"
                                 >
+                                    <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
                                     <div className="grid md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>Nome</label>
-                                            <input 
-                                                required 
-                                                type="text" 
-                                                name="name" 
-                                                className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all" 
+                                            <input
+                                                required
+                                                type="text"
+                                                name="name"
+                                                className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all"
                                                 placeholder="Seu nome"
                                                 style={{
                                                     background: theme === 'light' ? '#ffffff' : 'rgba(10, 10, 10, 0.5)',
@@ -1673,10 +1648,10 @@
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>Empresa</label>
-                                            <input 
-                                                type="text" 
-                                                name="company" 
-                                                className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all" 
+                                            <input
+                                                type="text"
+                                                name="company"
+                                                className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all"
                                                 placeholder="Nome da empresa"
                                                 style={{
                                                     background: theme === 'light' ? '#ffffff' : 'rgba(10, 10, 10, 0.5)',
@@ -1686,14 +1661,14 @@
                                             />
                                         </div>
                                     </div>
-                                    
+
                                     <div className="space-y-2">
                                         <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>Email Corporativo</label>
-                                        <input 
-                                            required 
-                                            type="email" 
-                                            name="email" 
-                                            className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all" 
+                                        <input
+                                            required
+                                            type="email"
+                                            name="email"
+                                            className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all"
                                             placeholder="seu@empresa.com"
                                             style={{
                                                 background: theme === 'light' ? '#ffffff' : 'rgba(10, 10, 10, 0.5)',
@@ -1702,14 +1677,14 @@
                                             }}
                                         />
                                     </div>
-                                    
+
                                     <div className="space-y-2">
                                         <label className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>Como podemos ajudar?</label>
-                                        <textarea 
-                                            required 
-                                            name="message" 
-                                            rows="4" 
-                                            className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all resize-none" 
+                                        <textarea
+                                            required
+                                            name="message"
+                                            rows="4"
+                                            className="w-full border rounded-sm p-3 focus:border-potencia-gold focus:ring-1 focus:ring-potencia-gold outline-none transition-all resize-none"
                                             placeholder="Descreva brevemente seu desafio..."
                                             style={{
                                                 background: theme === 'light' ? '#ffffff' : 'rgba(10, 10, 10, 0.5)',
@@ -1718,9 +1693,9 @@
                                             }}
                                         ></textarea>
                                     </div>
-                                    
-                                    <button 
-                                        type="submit" 
+
+                                    <button
+                                        type="submit"
                                         className="w-full py-4 bg-potencia-gold text-black font-bold uppercase tracking-widest transition-all duration-300 shadow-lg"
                                         style={{ boxShadow: '0 4px 20px rgba(228, 179, 69, 0.2)' }}
                                         onMouseEnter={(e) => {
@@ -1808,7 +1783,7 @@
                                 <ul className="space-y-3 text-sm">
                                     <li className="flex items-start gap-2">
                                         <i data-lucide="mail" width="16" height="16" className="mt-0.5 flex-shrink-0"></i>
-                                        <a href="mailto:mauroperiquito@potenciatech.ai" className="hover:text-potencia-gold transition-colors break-all">mauroperiquito@potenciatech.ai</a>
+                                        <a href={`mailto:${getEmail()}`} className="hover:text-potencia-gold transition-colors break-all">{getEmail()}</a>
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <i data-lucide="linkedin" width="16" height="16" className="mt-0.5 flex-shrink-0"></i>
@@ -1848,7 +1823,6 @@
                     <QuemAtendemos />
                     <Services />
                     <Methodology />
-                    <StatsRow />
                     <About />
                     <CTABanner />
                     <Insights />
@@ -1867,4 +1841,5 @@
         );
     </script>
 </body>
+
 </html>
