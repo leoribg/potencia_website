@@ -804,9 +804,9 @@
                 const GOLD = { r: 228, g: 179, b: 69 };
                 const BLUE = { r: 37, g: 32, b: 101 };
                 const WHITE = { r: 255, g: 255, b: 255 };
-                const PARTICLE_COUNT = 55;
-                const CONNECTION_DIST = 120;
-                const MOUSE_RADIUS = 150;
+                const PARTICLE_COUNT = 75;
+                const CONNECTION_DIST = 160;
+                const MOUSE_RADIUS = 180;
                 const isLight = theme === 'light';
 
                 const resize = () => {
@@ -827,12 +827,15 @@
                     for (let i = 0; i < PARTICLE_COUNT; i++) {
                         const isGold = Math.random() < 0.55;
                         const col = isGold ? GOLD : (isLight ? BLUE : WHITE);
+                        // Spawn dots near the center of the canvas
+                        const cx = w() / 2;
+                        const cy = h() / 2;
                         particlesRef.current.push({
-                            x: Math.random() * 500,
-                            y: Math.random() * 500,
+                            x: cx + (Math.random() - 0.5) * (w() * 0.8),
+                            y: cy + (Math.random() - 0.5) * (h() * 0.8),
                             vx: (Math.random() - 0.5) * 0.6,
                             vy: (Math.random() - 0.5) * 0.6,
-                            r: Math.random() * 2.5 + 1.2,
+                            r: Math.random() * 4.5 + 2.5,
                             col,
                             alpha: isGold
                                 ? (Math.random() * 0.4 + 0.3)
@@ -1018,10 +1021,15 @@
                     {/* Noise Overlay */}
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" style={{ opacity: theme === 'light' ? '0.03' : '0.20' }}></div>
 
-                    <div className="container mx-auto px-6 relative z-10">
+                    {/* Right: Interactive animation (hidden on mobile/tablet) - Moved outside container to span full right edge */}
+                    <div className="hidden lg:block absolute inset-y-0 right-0 w-[48vw] z-0 pointer-events-auto">
+                        <HeroAnimation theme={theme} />
+                    </div>
+
+                    <div className="container mx-auto px-6 relative z-10 pointer-events-none">
                         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
                             {/* Left: Text content */}
-                            <div className="flex-1 w-full">
+                            <div className="w-full lg:w-1/2 pointer-events-auto">
                                 <div className="inline-block px-3 py-1 mb-6 border border-potencia-gold/30 rounded-full bg-potencia-gold/5 backdrop-blur-sm">
                                     <span className="text-potencia-gold text-xs font-bold tracking-wider sm:tracking-widest uppercase">Consultoria em Transformação Digital</span>
                                 </div>
@@ -1086,10 +1094,8 @@
                                 </div>
                             </div>
 
-                            {/* Right: Interactive animation (hidden on mobile/tablet) */}
-                            <div className="hidden lg:flex flex-1 items-center justify-center min-h-[420px] relative">
-                                <HeroAnimation theme={theme} />
-                            </div>
+                            {/* Right: Space Placeholder to keep left text aligned */}
+                            <div className="hidden lg:block w-full lg:w-1/2"></div>
                         </div>
                     </div>
 
