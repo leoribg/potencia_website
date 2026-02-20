@@ -96,7 +96,7 @@ potencia_website/
 
 ## Passo 1: Preparar o Envio de Emails ✅ (Já Configurado)
 
-O formulário de contato já está integrado com o **Formspree** e enviará os emails para: **mauroperiquito@potenciatech.ai**
+O formulário de contato já está integrado com o **Formspree** e enviará os emails para: **mauroperiquito@potencia.tec.br**
 
 - Endpoint configurado: `https://formspree.io/f/xanzrokl`
 - Status: Ativo e pronto para uso
@@ -184,7 +184,7 @@ firebase hosting:channel:deploy preview --expires 7d
 - **Hosting Principal:** Firebase Hosting
 - **Analytics:** Firebase Analytics (Google Analytics 4)
 - **Formulário:** Formspree (https://formspree.io/f/xanzrokl)
-- **Email de destino:** mauroperiquito@potenciatech.ai
+- **Email de destino:** mauroperiquito@potencia.tec.br
 - **Projeto Firebase:** potencia-74784
 
 ### Identidade Visual
@@ -250,6 +250,6 @@ firebase open hosting
 ## 📞 Suporte
 
 Para dúvidas sobre configuração:
-- **Email:** mauroperiquito@potenciatech.ai
+- **Email:** mauroperiquito@potencia.tec.br
 - **Projeto Firebase:** potencia-74784
 - **Documentação:** [Firebase Docs](https://firebase.google.com/docs/hosting)
